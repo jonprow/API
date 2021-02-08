@@ -224,7 +224,7 @@
           "mainDealer" : {
             "maxLength" : 10,
             "type" : "string",
-            "description" : "Primary Dealer for related branch Dealers"
+            "description" : "Primary Dealer for a Dealership"
           },
           "address" : {
             "$ref" : "#/components/schemas/address"
@@ -347,7 +347,7 @@
           "mainDealer" : {
             "maxLength" : 10,
             "type" : "string",
-            "description" : "Primary Dealer for related branch Dealers"
+            "description" : "Primary Dealer for a Dealership"
           },
           "address" : {
             "$ref" : "#/components/schemas/address"
@@ -984,49 +984,51 @@
               "noMarket" : false,
               "archive" : false
             },
-            "contact" : {
-              "accountNo" : "",
-              "accountName" : "",
-              "bpGroup" : "",
-              "partRelCode" : "",
-              "partnerFunction" : "",
-              "pfText" : "",
-              "firstName" : "Jon",
-              "lastName" : "Prow",
-              "title" : "",
-              "titleText" : "",
-              "department" : "",
-              "dpmtText" : "",
-              "address" : {
-                "street" : "102 N Raymond Ave",
-                "city" : "Trafalgar",
-                "region" : "IN",
-                "postalCode" : "46181",
-                "countryCode" : "US"
-              },
-              "taxJurisdictionCode" : "",
-              "latitude" : 39.41379,
-              "longitude" : -86.15108,
-              "fipsState" : "",
-              "fipsCounty" : "",
-              "prefCommCode" : "",
-              "prefCommText" : "",
-              "subscriberId" : "812-342-8321",
-              "subscriberExtension" : "",
-              "faxNo" : "",
-              "emailAddress" : "jon.prow@tmhna.com",
-              "telephoneRel" : "",
-              "telephoneExtRel" : "",
-              "attribute" : {
-                "vocCommPref" : "MAIL",
-                "noMarket" : false,
-                "vocSP" : false,
-                "vocPE" : false,
-                "vocSD" : false,
-                "archive" : false
-              },
-              "notes" : ""
-            }
+            "contact" : [ {
+              "contact" : {
+                "accountNo" : "",
+                "accountName" : "",
+                "bpGroup" : "",
+                "partRelCode" : "",
+                "partnerFunction" : "",
+                "pfText" : "",
+                "firstName" : "Jon",
+                "lastName" : "Prow",
+                "title" : "",
+                "titleText" : "",
+                "department" : "",
+                "dpmtText" : "",
+                "address" : {
+                  "street" : "102 N Raymond Ave",
+                  "city" : "Trafalgar",
+                  "region" : "IN",
+                  "postalCode" : "46181",
+                  "countryCode" : "US"
+                },
+                "taxJurisdictionCode" : "",
+                "latitude" : 39.41379,
+                "longitude" : -86.15108,
+                "fipsState" : "",
+                "fipsCounty" : "",
+                "prefCommCode" : "",
+                "prefCommText" : "",
+                "subscriberId" : "812-342-8321",
+                "subscriberExtension" : "",
+                "faxNo" : "",
+                "emailAddress" : "jon.prow@tmhna.com",
+                "telephoneRel" : "",
+                "telephoneExtRel" : "",
+                "attribute" : {
+                  "vocCommPref" : "MAIL",
+                  "noMarket" : false,
+                  "vocSP" : false,
+                  "vocPE" : false,
+                  "vocSD" : false,
+                  "archive" : false
+                },
+                "notes" : ""
+              }
+            } ]
           }
         }
       },
