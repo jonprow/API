@@ -58,6 +58,9 @@
               "examples" : {
                 "create-account" : {
                   "$ref" : "#/components/examples/create-account"
+                },
+                "create-account-contact" : {
+                  "$ref" : "#/components/examples/create-account-contact"
                 }
               }
             }
@@ -899,7 +902,54 @@
             "externalContactNo" : "CM-120654",
             "bpGroup" : "",
             "titleKey" : "",
-            "mainDealer" : "",
+            "mainDealer" : "70209",
+            "address" : {
+              "poBox" : "",
+              "street" : "5557 Inwood Dri",
+              "city" : "Columbus",
+              "region" : "IN",
+              "postalCode" : "47201",
+              "countryCode" : "US"
+            },
+            "phoneNo" : "812-342-8321",
+            "phoneExt" : "",
+            "faxNo" : "",
+            "emailAddress" : "jon.prow@tmhna.com",
+            "webUrl" : "www.toyotaforklift.com",
+            "latitude" : 39.41353,
+            "longitude" : -86.15108,
+            "fipsState" : "",
+            "fipsCounty" : "",
+            "poAddress" : {
+              "poBox" : "",
+              "street" : "5557 Inwood Dr",
+              "street2" : "",
+              "city" : "Columbus",
+              "region" : "IN",
+              "postalCode" : "47201",
+              "countryCode" : "US"
+            },
+            "attribute" : {
+              "participantEnabled" : false,
+              "couponEnabled" : false,
+              "giftEnabled" : false,
+              "abcClass" : "A",
+              "noMarket" : false,
+              "archive" : false
+            }
+          }
+        }
+      },
+      "create-account-contact" : {
+        "value" : {
+          "account" : {
+            "name" : "Toyota",
+            "name2" : "Toyota Material Handling",
+            "externalAccountNo" : "C002208",
+            "externalContactNo" : "CM-120654",
+            "bpGroup" : "",
+            "titleKey" : "",
+            "mainDealer" : "70209",
             "address" : {
               "poBox" : "",
               "street" : "5557 Inwood Dri",
@@ -977,53 +1027,6 @@
               },
               "notes" : ""
             }
-          }
-        }
-      },
-      "create-account-contact" : {
-        "value" : {
-          "contact" : {
-            "accountNo" : "",
-            "accountName" : "",
-            "bpGroup" : "",
-            "partRelCode" : "",
-            "partnerFunction" : "",
-            "pfText" : "",
-            "firstName" : "Jon",
-            "lastName" : "Prow",
-            "title" : "",
-            "titleText" : "",
-            "department" : "",
-            "dpmtText" : "",
-            "address" : {
-              "street" : "5557 Inwood Dr",
-              "city" : "Columbus",
-              "region" : "IN",
-              "postalCode" : "47201",
-              "countryCode" : "US"
-            },
-            "taxJurisdictionCode" : "",
-            "latitude" : 39.41379,
-            "longitude" : -86.15108,
-            "fipsState" : "",
-            "fipsCounty" : "",
-            "prefCommCode" : "",
-            "prefCommText" : "",
-            "subscriberId" : "812-342-8321",
-            "subscriberExtension" : "",
-            "faxNo" : "",
-            "emailAddress" : "jon.prow@tmhna.com",
-            "telephoneRel" : "",
-            "telephoneExtRel" : "",
-            "attribute" : {
-              "vocCommPref" : "MAIL",
-              "noMarket" : "",
-              "vocSP" : "",
-              "vocPE" : "",
-              "vocSD" : "",
-              "archive" : false
-            },
-            "notes" : ""
           }
         }
       },
