@@ -728,7 +728,7 @@
           "message" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/contactResultItems"
+              "$ref" : "#/components/schemas/contactResultItem"
             }
           },
           "accountName" : {
@@ -743,7 +743,7 @@
         },
         "description" : "Contact Attributes"
       },
-      "contactResultItems" : {
+      "contactResultItem" : {
         "type" : "object",
         "properties" : {
           "code" : {
