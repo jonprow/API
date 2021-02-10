@@ -2,7 +2,7 @@
   "openapi" : "3.0.1",
   "info" : {
     "title" : "TMH Fleet",
-    "description" : "</p> <ul> <li>Addded BillTo Address for end customer information</li> <li>removed customerLocation - use BillTo-Id</li> <li>moved emailAddress - use BillTo-Name-Id</li> <li>BillTo is required</li> <li>Production URL</li> <li>Equipment under Details</li> </ul>",
+    "description" : "</p> <ul> <li>Added Customer section for name address information</li> <li>Removed customerLocation - customer-Id</li> <li>Moved emailAddress - use customer-contact</li> <li>Customer is required</li> <li>Production URL</li> <li>Equipment under Details</li> </ul>",
     "version" : "1.2"
   },
   "servers" : [ {
