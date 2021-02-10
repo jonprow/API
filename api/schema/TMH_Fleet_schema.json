@@ -63,7 +63,7 @@
         }
       },
       "invoice" : {
-        "required" : [ "billTo", "invoiceDate", "invoiceNo", "orderDetails", "workOrder" ],
+        "required" : [ "customer", "invoiceDate", "invoiceNo", "orderDetail", "workOrder" ],
         "type" : "object",
         "properties" : {
           "invoiceNo" : {
