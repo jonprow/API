@@ -2,11 +2,11 @@
   "openapi" : "3.0.1",
   "info" : {
     "title" : "TMH Fleet",
-    "description" : "</p> <ul> <li>Removed Customer</li> <li>Removed scheduledStart</li> <li>Removed repairDate</li> <li>Removed quantityWithdrawn</li> <li>Removed reservationNumber</li> <li>Added servicingCustomer</li> </ul>",
+    "description" : "</p> <ul> <li>Removed Customer</li> <li>Removed scheduledStart</li> <li>Removed repairDate</li> <li>Removed quantityWithdrawn</li> <li>Removed reservationNumber</li> <li>Added CustomerId to invoice schema</li> <li>Updated servicingDealer to dealerId</li> </ul>",
     "version" : "1.3"
   },
   "servers" : [ {
-    "url" : "https://tmhna-test.apimanagement.us3qana.ondemand.com:443/v1/tmh/fleet",
+    "url" : "https://tmhna-test.apimanagement.us3.hana.ondemand.com:443/v1/tmh/fleet",
     "description" : "Test server"
   }, {
     "url" : "https://api.tmhna.com:443/v1/tmh/crm",
@@ -63,7 +63,7 @@
         }
       },
       "invoice" : {
-        "required" : [ "customer", "invoiceDate", "invoiceNo", "orderDetail", "workOrder" ],
+        "required" : [ "customerId", "dealerId", "invoiceDate", "invoiceNo", "orderDetail", "workOrder" ],
         "type" : "object",
         "properties" : {
           "invoiceNo" : {
@@ -97,16 +97,16 @@
             "description" : "Work Order Number",
             "example" : "W285175"
           },
-          "servicingDealer" : {
+          "dealerId" : {
             "maxLength" : 10,
             "type" : "string",
-            "description" : "Dealer Number providing Service",
+            "description" : "Servicing Dealer Identifier",
             "example" : "70099"
           },
-          "servicingCustomer" : {
+          "customerId" : {
             "maxLength" : 30,
             "type" : "string",
-            "description" : "Identifier",
+            "description" : "Customer Identifier for receiving service",
             "example" : "MC1879023"
           },
           "scheduledStart" : {
@@ -427,7 +427,7 @@
             "customerPO" : "0132000267",
             "customerLocation" : "0HD0108",
             "workOrder" : "0132000267",
-            "servicingDealer" : "0000070210",
+            "dealerId" : "0000070210",
             "customerId" : "8000127",
             "totalAmount" : 291.59,
             "description" : "",
