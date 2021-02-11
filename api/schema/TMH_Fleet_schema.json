@@ -302,7 +302,7 @@
         }
       },
       "comments" : {
-        "required" : [ "comments" ],
+        "required" : [ "text" ],
         "type" : "object",
         "properties" : {
           "text" : {
