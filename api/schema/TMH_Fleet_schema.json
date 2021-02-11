@@ -401,7 +401,7 @@
             "type" : "string",
             "description" : "Name"
           },
-          "id" : {
+          "customerId" : {
             "maxLength" : 30,
             "type" : "string",
             "description" : "Identifier",
@@ -428,27 +428,9 @@
             "customerLocation" : "0HD0108",
             "workOrder" : "0132000267",
             "servicingDealer" : "0000070210",
-            "scheduledStart" : "2021-01-13",
-            "repairDate" : "2021-01-13",
+            "customerId" : "8000127",
             "totalAmount" : 291.59,
             "description" : "",
-            "customer" : {
-              "name" : "Berry Farms",
-              "id" : "8000127",
-              "contact" : {
-                "name" : "Joe Berry",
-                "emailAddress" : "joe.berry@gmail.com",
-                "phoneNo" : ""
-              },
-              "address" : {
-                "poBox" : "",
-                "street" : "1050 Southtown Dr",
-                "city" : "Waterloo",
-                "region" : "IA",
-                "postalCode" : "50701",
-                "countryCode" : "US"
-              }
-            },
             "orderDetail" : {
               "operationNumber" : "0010",
               "repairType" : "",
