@@ -1,0 +1,494 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "TMH Fleet",
+    "description" : "</p> <ul> <li>Removed Customer</li> <li>Removed scheduledStart</li> <li>Removed repairDate</li> <li>Removed quantityWithdrawn</li> <li>Removed reservationNumber</li> <li>Added servicingCustomer</li> </ul>",
+    "version" : "1.3"
+  },
+  "servers" : [ {
+    "url" : "https://tmhna-test.apimanagement.us3qana.ondemand.com:443/v1/tmh/fleet",
+    "description" : "Test server"
+  }, {
+    "url" : "https://api.tmhna.com:443/v1/tmh/crm",
+    "description" : "Production server"
+  } ],
+  "paths" : {
+    "/invoice" : {
+      "post" : {
+        "tags" : [ "Fleet" ],
+        "requestBody" : {
+          "description" : "Dealer Invoices for service and repair",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/fleetInvoice"
+              },
+              "examples" : {
+                "submit-invoice" : {
+                  "$ref" : "#/components/examples/submit-invoice"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Invoice",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/result"
+                },
+                "examples" : {
+                  "invoiceResponse" : {
+                    "$ref" : "#/components/examples/invoiceResponse201"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "fleetInvoice" : {
+        "type" : "object",
+        "properties" : {
+          "invoice" : {
+            "$ref" : "#/components/schemas/invoice"
+          }
+        }
+      },
+      "invoice" : {
+        "required" : [ "customer", "invoiceDate", "invoiceNo", "orderDetail", "workOrder" ],
+        "type" : "object",
+        "properties" : {
+          "invoiceNo" : {
+            "maxLength" : 12,
+            "type" : "string",
+            "description" : "Dealer Invoice Number",
+            "example" : "C41910"
+          },
+          "invoiceDate" : {
+            "pattern" : "^(20)\\d\\d([- /.])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$",
+            "type" : "string",
+            "description" : "Invoice Date",
+            "format" : "date",
+            "example" : "2020-02-03"
+          },
+          "invoiceType" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "</p> <ul> <li>RENTALS = Customer Rental Invoice</li> <li>SERVICE = Service Invoice</li> <li>PM_SERVICE = Preventative Service Invoice</li> <li>PARTS = Parts Only Invoice</li> </li> </ul>",
+            "enum" : [ "RENTALS", "SERVICE", "PM_SERVICE", "PARTS" ]
+          },
+          "customerPO" : {
+            "maxLength" : 12,
+            "type" : "string",
+            "description" : "Customer Purchase Order Number",
+            "example" : "WEB-5194395"
+          },
+          "workOrder" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Work Order Number",
+            "example" : "W285175"
+          },
+          "servicingDealer" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Dealer Number providing Service",
+            "example" : "70099"
+          },
+          "servicingCustomer" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Identifier",
+            "example" : "MC1879023"
+          },
+          "scheduledStart" : {
+            "pattern" : "^(20)\\d\\d([- /.])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$",
+            "type" : "string",
+            "description" : "Scheduled Start Date",
+            "format" : "date",
+            "example" : "2020-02-03"
+          },
+          "repairDate" : {
+            "pattern" : "^(20)\\d\\d([- /.])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$",
+            "type" : "string",
+            "description" : "Repair Date",
+            "format" : "date"
+          },
+          "totalAmount" : {
+            "maxLength" : 15,
+            "type" : "number",
+            "description" : "Total Invoice Amount",
+            "format" : "currency",
+            "example" : 103.43
+          },
+          "description" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Invoice Description"
+          },
+          "customer" : {
+            "$ref" : "#/components/schemas/invoice_customer"
+          },
+          "orderDetail" : {
+            "$ref" : "#/components/schemas/details"
+          },
+          "orderItem" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/lineItem"
+            }
+          }
+        }
+      },
+      "person" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Name"
+          },
+          "emailAddress" : {
+            "maxLength" : 241,
+            "type" : "string",
+            "description" : "Email Address",
+            "example" : "jon.prow@tmhna.com"
+          },
+          "phoneNo" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Telephone Number"
+          }
+        },
+        "description" : "Contact Information"
+      },
+      "address" : {
+        "type" : "object",
+        "properties" : {
+          "poBox" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Postal Office Box",
+            "example" : "601048"
+          },
+          "street" : {
+            "maxLength" : 60,
+            "type" : "string",
+            "description" : "Street",
+            "example" : "5557 Inwood Dr"
+          },
+          "street2" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Additional Street"
+          },
+          "city" : {
+            "maxLength" : 35,
+            "type" : "string",
+            "description" : "City",
+            "example" : "Columbus"
+          },
+          "region" : {
+            "maxLength" : 3,
+            "type" : "string",
+            "description" : "State or Province",
+            "example" : "IN"
+          },
+          "postalCode" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Postal Code",
+            "example" : "47201"
+          },
+          "countryCode" : {
+            "maxLength" : 3,
+            "type" : "string",
+            "example" : "US"
+          }
+        },
+        "description" : "Address Information"
+      },
+      "details" : {
+        "required" : [ "equipment", "operationNumber" ],
+        "type" : "object",
+        "properties" : {
+          "operationNumber" : {
+            "maxLength" : 4,
+            "type" : "string",
+            "description" : "Operation Number",
+            "example" : "10"
+          },
+          "repairType" : {
+            "maxLength" : 7,
+            "type" : "string",
+            "description" : "Type of Repair"
+          },
+          "repairCode" : {
+            "maxLength" : 20,
+            "type" : "string",
+            "description" : "Repair Code"
+          },
+          "repairDesc" : {
+            "maxLength" : 10000,
+            "type" : "string",
+            "description" : "Repair Description",
+            "example" : "PM Agreements"
+          },
+          "startDate" : {
+            "pattern" : "^(20)\\d\\d([- /.])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$",
+            "type" : "string",
+            "description" : "Start Date",
+            "format" : "date"
+          },
+          "endDate" : {
+            "pattern" : "^(20)\\d\\d([- /.])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$",
+            "type" : "string",
+            "description" : "End Date",
+            "format" : "date"
+          },
+          "equipment" : {
+            "$ref" : "#/components/schemas/equipment"
+          },
+          "comments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/comments"
+            }
+          }
+        }
+      },
+      "equipment" : {
+        "required" : [ "model", "serial" ],
+        "type" : "object",
+        "properties" : {
+          "frame" : {
+            "maxLength" : 35,
+            "type" : "string",
+            "description" : "Frame Number",
+            "example" : "8FGCU25-47312"
+          },
+          "model" : {
+            "maxLength" : 20,
+            "type" : "string",
+            "description" : "Model Number",
+            "example" : "8FGCU25"
+          },
+          "serial" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Serial Number",
+            "example" : "47312"
+          },
+          "hourMeter" : {
+            "maxLength" : 35,
+            "type" : "string",
+            "description" : "Hours Meter Reading",
+            "example" : "8302"
+          },
+          "make" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Manufacturer",
+            "example" : "TOYOTA"
+          }
+        }
+      },
+      "comments" : {
+        "required" : [ "comments" ],
+        "type" : "object",
+        "properties" : {
+          "text" : {
+            "maxLength" : 10000,
+            "type" : "string",
+            "description" : "Comments",
+            "example" : "PERFORMED 1ST 360 PM SERVICE. PERFORMED 1ST 360 PM SERVICE"
+          }
+        }
+      },
+      "lineItem" : {
+        "required" : [ "materialId" ],
+        "type" : "object",
+        "properties" : {
+          "itemNumber" : {
+            "maxLength" : 4,
+            "type" : "string",
+            "description" : "Item Number",
+            "example" : "2"
+          },
+          "quantity" : {
+            "maxLength" : 18,
+            "type" : "integer",
+            "description" : "Quantity",
+            "example" : 8
+          },
+          "unitOfMeasure" : {
+            "maxLength" : 3,
+            "type" : "string",
+            "description" : "Unit of Measure",
+            "example" : "EA"
+          },
+          "unitPrice" : {
+            "maxLength" : 15,
+            "type" : "number",
+            "description" : "Unit Price",
+            "format" : "currency",
+            "example" : 2.05
+          },
+          "materialId" : {
+            "maxLength" : 18,
+            "type" : "string",
+            "description" : "Material Id",
+            "example" : "5905076871"
+          },
+          "materialDescription" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Material Description",
+            "example" : "BEARING"
+          }
+        }
+      },
+      "result" : {
+        "required" : [ "message", "status" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "enum" : [ "100", "199", "200", "201", "400" ]
+          },
+          "referenceId" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Reference Identifier"
+          },
+          "message" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/resultItem"
+            }
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "success", "error" ]
+          }
+        }
+      },
+      "resultItem" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "invoice_customer" : {
+        "required" : [ "address", "id" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Name"
+          },
+          "id" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Identifier",
+            "example" : "MC1879023"
+          },
+          "contact" : {
+            "$ref" : "#/components/schemas/person"
+          },
+          "address" : {
+            "$ref" : "#/components/schemas/address"
+          }
+        },
+        "description" : "End Customer Details"
+      }
+    },
+    "examples" : {
+      "submit-invoice" : {
+        "value" : {
+          "invoice" : {
+            "invoiceNo" : "0132000267",
+            "invoiceDate" : "2021-01-18",
+            "invoiceType" : "PM_SERVICE",
+            "customerPO" : "0132000267",
+            "customerLocation" : "0HD0108",
+            "workOrder" : "0132000267",
+            "servicingDealer" : "0000070210",
+            "scheduledStart" : "2021-01-13",
+            "repairDate" : "2021-01-13",
+            "totalAmount" : 291.59,
+            "description" : "",
+            "customer" : {
+              "name" : "Berry Farms",
+              "id" : "8000127",
+              "contact" : {
+                "name" : "Joe Berry",
+                "emailAddress" : "joe.berry@gmail.com",
+                "phoneNo" : ""
+              },
+              "address" : {
+                "poBox" : "",
+                "street" : "1050 Southtown Dr",
+                "city" : "Waterloo",
+                "region" : "IA",
+                "postalCode" : "50701",
+                "countryCode" : "US"
+              }
+            },
+            "orderDetail" : {
+              "operationNumber" : "0010",
+              "repairType" : "",
+              "repairCode" : "",
+              "repairDesc" : "load wheel damaged",
+              "startDate" : "2021-02-03",
+              "endDate" : "2021-02-03",
+              "equipment" : {
+                "frame" : "8FGCU25-66711R",
+                "model" : "8FGCU25",
+                "serial" : "66711R",
+                "hourMeter" : "5580",
+                "make" : "Toyota"
+              },
+              "comments" : [ {
+                "text" : "Work order reporting"
+              } ]
+            },
+            "orderItem" : [ {
+              "itemNumber" : "1",
+              "quantity" : 2,
+              "unitOfMeasure" : "EA",
+              "unitPrice" : 39.55,
+              "materialId" : "FM-TOYOTA-PART",
+              "materialDescription" : "LOAD WHEEL(5 X 2.88 X 2.047)95 DURO"
+            } ]
+          }
+        }
+      },
+      "invoiceResponse201" : {
+        "value" : {
+          "code" : "201",
+          "referenceId" : "4012419",
+          "message" : [ {
+            "code" : "S",
+            "message" : "Invoice Successfully Created"
+          } ],
+          "status" : "success"
+        }
+      }
+    }
+  }
+}
