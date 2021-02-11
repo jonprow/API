@@ -305,7 +305,7 @@
         "required" : [ "comments" ],
         "type" : "object",
         "properties" : {
-          "comments" : {
+          "text" : {
             "maxLength" : 10000,
             "type" : "string",
             "description" : "Comments",
@@ -446,7 +446,7 @@
                 "make" : "Toyota"
               },
               "comments" : [ {
-                "comments" : "Work order reporting"
+                "text" : "Work order reporting"
               } ]
             },
             "orderItem" : [ {
