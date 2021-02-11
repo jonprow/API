@@ -446,7 +446,7 @@
                 "make" : "Toyota"
               },
               "comments" : [ {
-                "text" : "Work order reporting"
+                "comments" : "Work order reporting"
               } ]
             },
             "orderItem" : [ {
