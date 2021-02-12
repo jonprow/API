@@ -109,19 +109,6 @@
             "description" : "Customer Identifier Receiving Service",
             "example" : "MC1879023"
           },
-          "scheduledStart" : {
-            "pattern" : "^(20)\\d\\d([- /.])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$",
-            "type" : "string",
-            "description" : "Scheduled Start Date",
-            "format" : "date",
-            "example" : "2020-02-03"
-          },
-          "repairDate" : {
-            "pattern" : "^(20)\\d\\d([- /.])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$",
-            "type" : "string",
-            "description" : "Repair Date",
-            "format" : "date"
-          },
           "totalAmount" : {
             "maxLength" : 15,
             "type" : "number",
