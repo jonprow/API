@@ -17,7 +17,7 @@
       "post" : {
         "tags" : [ "Fleet" ],
         "requestBody" : {
-          "description" : "Dealer Invoices for service and repair",
+          "description" : "Dealer Invoice for Service and Repair",
           "content" : {
             "application/json" : {
               "schema" : {
@@ -325,6 +325,7 @@
             "customerPO" : "0132000267",
             "customerLocation" : "0HD0108",
             "workOrder" : "0132000267",
+            "workOrderDate" : "2021-01-12",
             "dealerId" : "0000070210",
             "customerId" : "8000127",
             "totalAmount" : 291.59,
@@ -334,8 +335,8 @@
               "repairType" : "",
               "repairCode" : "",
               "repairDesc" : "load wheel damaged",
-              "startDate" : "2021-02-03",
-              "endDate" : "2021-02-03",
+              "startDate" : "2021-01-15",
+              "endDate" : "2021-01-16",
               "equipment" : {
                 "frame" : "8FGCU25-66711R",
                 "model" : "8FGCU25",
