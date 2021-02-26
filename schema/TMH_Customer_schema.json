@@ -1,0 +1,1297 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "TMH Customer",
+    "description" : "</p>TMH Customer related APIs <ul> <li>1.0.8</li> <li>Updated 202 Response Schemas</li> <li>Updated description on Response Schema</li> </ul>",
+    "version" : "1.0.8",
+    "x-targetEndpoint" : "https://tmhna-test.apimanagement.us3.hana.ondemand.com:443/v1/tmh/crm"
+  },
+  "servers" : [ {
+    "url" : "https://tmhna-test.apimanagement.us3.hana.ondemand.com:443/v1/tmh/crm",
+    "description" : "Test server"
+  }, {
+    "url" : "https://api.tmhna.com:443/v1/tmh/crm",
+    "description" : "Production server"
+  } ],
+  "paths" : {
+    "/account" : {
+      "put" : {
+        "tags" : [ "Account" ],
+        "description" : "Update Account",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/accountUpdate"
+              },
+              "examples" : {
+                "update-account" : {
+                  "$ref" : "#/components/examples/update-account"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Account Updated",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/result"
+                },
+                "examples" : {
+                  "result-update-account" : {
+                    "$ref" : "#/components/examples/accountResponse200"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Account" ],
+        "description" : "Add an Account",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/accountCreate"
+              },
+              "examples" : {
+                "create-account" : {
+                  "$ref" : "#/components/examples/create-account"
+                },
+                "create-account-contact" : {
+                  "$ref" : "#/components/examples/create-account-contact"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Account Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/result"
+                },
+                "examples" : {
+                  "result-create-account" : {
+                    "$ref" : "#/components/examples/accountResponse201"
+                  },
+                  "result-create-account-contact" : {
+                    "$ref" : "#/components/examples/accountContactResponse200"
+                  }
+                }
+              }
+            }
+          },
+          "202" : {
+            "description" : "Accepted for Processing",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/result"
+                },
+                "examples" : {
+                  "result-create-account" : {
+                    "$ref" : "#/components/examples/response202"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contact" : {
+      "put" : {
+        "tags" : [ "Contact" ],
+        "description" : "Update Contact",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/contactUpdate"
+              },
+              "examples" : {
+                "update-contact" : {
+                  "$ref" : "#/components/examples/update-contact"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Contact Updated",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/result"
+                },
+                "examples" : {
+                  "ContactResponse" : {
+                    "$ref" : "#/components/examples/contactResponse200"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Contact" ],
+        "description" : "Add a contact",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/contactCreate"
+              },
+              "examples" : {
+                "create-contact" : {
+                  "$ref" : "#/components/examples/create-contact"
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Contact Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/result"
+                },
+                "examples" : {
+                  "ContactResponse" : {
+                    "$ref" : "#/components/examples/contactResponse201"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "accountCreate" : {
+        "type" : "object",
+        "properties" : {
+          "account" : {
+            "$ref" : "#/components/schemas/accountCreateProperties"
+          }
+        }
+      },
+      "accountUpdate" : {
+        "type" : "object",
+        "properties" : {
+          "account" : {
+            "$ref" : "#/components/schemas/accountUpdateProperties"
+          }
+        }
+      },
+      "accountCreateProperties" : {
+        "required" : [ "address", "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Name 1",
+            "example" : "Toyota"
+          },
+          "name2" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Name 2",
+            "example" : "Toyota Material Handling North America"
+          },
+          "accountNo" : {
+            "type" : "string",
+            "description" : "Account Number",
+            "example" : "1"
+          },
+          "accountGuid" : {
+            "type" : "string",
+            "description" : "Account Guid",
+            "format" : "uuid"
+          },
+          "externalAccountNo" : {
+            "maxLength" : 20,
+            "type" : "string",
+            "description" : "Search Term 1",
+            "example" : "C002208"
+          },
+          "externalContactNo" : {
+            "maxLength" : 60,
+            "type" : "string",
+            "description" : "Search Term 2",
+            "example" : "CM-120654"
+          },
+          "bpGroup" : {
+            "maxLength" : 4,
+            "type" : "string",
+            "description" : "Partner Group"
+          },
+          "titleKey" : {
+            "type" : "string",
+            "description" : "Job Title"
+          },
+          "mainDealer" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Primary Dealer for a Dealership"
+          },
+          "address" : {
+            "$ref" : "#/components/schemas/address"
+          },
+          "communicationType" : {
+            "type" : "string",
+            "description" : "</p> <ul> <li>FAX = Fax</li> <li>INT = E-Mail</li> <li>LET = Post (letter)</li> <li>PAG = Pager/SMS</li> <li>PRT = Printer</li> <li>RFC = Remote Function Call</li> <li>RML = Remote Mail  </li> <li>SSF = Secure Store & Forw.</li> <li>TEL = Telephone</li> <li>TLX = Telex</li> <li>TTX = Teletex</li> <li>URI = URL (Homepage)</li> <li>VIS = Sales call</li> <li>X40 = X.400</li> <li>ZEM = Mail and E-mail</li> </ul>",
+            "enum" : [ "FAX", "INT", "LET", "PAG", "PRT", "RFC", "RML", "SSF", "TEL", "TLX", "TTX", "URI", "VIS", "X40", "ZEM" ]
+          },
+          "phoneNo" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Telephone Number"
+          },
+          "phoneExt" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Telephone Number Extension",
+            "example" : "143"
+          },
+          "faxNo" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Fax Number"
+          },
+          "emailAddress" : {
+            "maxLength" : 241,
+            "type" : "string",
+            "description" : "Email Address",
+            "example" : "jon.prow@tmhna.com"
+          },
+          "webUrl" : {
+            "maxLength" : 132,
+            "type" : "string",
+            "description" : "Website",
+            "example" : "www.toyotaforklift.com"
+          },
+          "longitude" : {
+            "$ref" : "#/components/schemas/longitude"
+          },
+          "latitude" : {
+            "$ref" : "#/components/schemas/latitude"
+          },
+          "fipsState" : {
+            "$ref" : "#/components/schemas/fipsState"
+          },
+          "fipsCounty" : {
+            "$ref" : "#/components/schemas/fipsCounty"
+          },
+          "poAddress" : {
+            "$ref" : "#/components/schemas/address"
+          },
+          "leaseExpDt" : {
+            "pattern" : "^(20)\\d\\d([- /.])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$",
+            "type" : "string",
+            "description" : "Lease Expiration Date",
+            "format" : "date",
+            "example" : "2020-08-30"
+          },
+          "svcAgrmntExpDt" : {
+            "pattern" : "^(20)\\d\\d([- /.])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$",
+            "type" : "string",
+            "description" : "Service Agreement Expiration Date",
+            "format" : "date",
+            "example" : "2020-08-30"
+          },
+          "attribute" : {
+            "$ref" : "#/components/schemas/accountAttributes"
+          },
+          "contact" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/contactCreateProperties"
+            }
+          }
+        },
+        "description" : "Account Attributes"
+      },
+      "accountUpdateProperties" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Name 1",
+            "example" : "Toyota"
+          },
+          "name2" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Name 2",
+            "example" : "Toyota Material Handling North America"
+          },
+          "accountNo" : {
+            "type" : "string",
+            "description" : "Account Number",
+            "example" : "1"
+          },
+          "externalAccountNo" : {
+            "maxLength" : 20,
+            "type" : "string",
+            "description" : "Search Term 1",
+            "example" : "C002208"
+          },
+          "externalContactNo" : {
+            "maxLength" : 60,
+            "type" : "string",
+            "description" : "Search Term 2",
+            "example" : "CM-120654"
+          },
+          "bpGroup" : {
+            "maxLength" : 4,
+            "type" : "string",
+            "description" : "Partner Group"
+          },
+          "titleKey" : {
+            "type" : "string",
+            "description" : "Job Title"
+          },
+          "mainDealer" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Primary Dealer for a Dealership"
+          },
+          "address" : {
+            "$ref" : "#/components/schemas/address"
+          },
+          "communicationType" : {
+            "type" : "string",
+            "description" : "</p> <ul> <li>FAX = Fax</li> <li>INT = E-Mail</li> <li>LET = Post (letter)</li> <li>PAG = Pager/SMS</li> <li>PRT = Printer</li> <li>RFC = Remote Function Call</li> <li>RML = Remote Mail  </li> <li>SSF = Secure Store & Forw.</li> <li>TEL = Telephone</li> <li>TLX = Telex</li> <li>TTX = Teletex</li> <li>URI = URL (Homepage)</li> <li>VIS = Sales call</li> <li>X40 = X.400</li> <li>ZEM = Mail and E-mail</li> </ul>",
+            "enum" : [ "FAX", "INT", "LET", "PAG", "PRT", "RFC", "RML", "SSF", "TEL", "TLX", "TTX", "URI", "VIS", "X40", "ZEM" ]
+          },
+          "phoneNo" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Telephone Number"
+          },
+          "phoneExt" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Telephone Number Extension",
+            "example" : "143"
+          },
+          "faxNo" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Fax Number"
+          },
+          "emailAddress" : {
+            "maxLength" : 241,
+            "type" : "string",
+            "description" : "Email Address",
+            "example" : "jon.prow@tmhna.com"
+          },
+          "webUrl" : {
+            "maxLength" : 132,
+            "type" : "string",
+            "description" : "Website",
+            "example" : "www.toyotaforklift.com"
+          },
+          "longitude" : {
+            "$ref" : "#/components/schemas/longitude"
+          },
+          "latitude" : {
+            "$ref" : "#/components/schemas/latitude"
+          },
+          "fipsState" : {
+            "$ref" : "#/components/schemas/fipsState"
+          },
+          "fipsCounty" : {
+            "$ref" : "#/components/schemas/fipsCounty"
+          },
+          "poAddress" : {
+            "$ref" : "#/components/schemas/address"
+          },
+          "leaseExpDt" : {
+            "pattern" : "^(20)\\d\\d([- /.])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$",
+            "type" : "string",
+            "description" : "Lease Expiration Date",
+            "format" : "date",
+            "example" : "2020-08-30"
+          },
+          "svcAgrmntExpDt" : {
+            "pattern" : "^(20)\\d\\d([- /.])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$",
+            "type" : "string",
+            "description" : "Service Agreement Expiration Date",
+            "format" : "date",
+            "example" : "2020-08-30"
+          },
+          "attribute" : {
+            "$ref" : "#/components/schemas/accountAttributes"
+          }
+        },
+        "description" : "Account Attributes"
+      },
+      "contactCreate" : {
+        "type" : "object",
+        "properties" : {
+          "contact" : {
+            "$ref" : "#/components/schemas/contactCreateProperties"
+          }
+        }
+      },
+      "contactUpdate" : {
+        "type" : "object",
+        "properties" : {
+          "contact" : {
+            "$ref" : "#/components/schemas/contactUpdateProperties"
+          }
+        }
+      },
+      "contactCreateProperties" : {
+        "required" : [ "accountNo" ],
+        "type" : "object",
+        "properties" : {
+          "accountNo" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Business Partner Account that has relationship with contact"
+          },
+          "accountName" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Relationship Partner Name"
+          },
+          "bpGroup" : {
+            "maxLength" : 4,
+            "type" : "string",
+            "description" : "Partner Group"
+          },
+          "partRelCode" : {
+            "maxLength" : 1,
+            "type" : "string",
+            "description" : "Partner Relationship Code"
+          },
+          "partnerFunction" : {
+            "maxLength" : 4,
+            "type" : "string",
+            "description" : "</p> <ul> <li>1 =\tExecutive</li> <li>2 =\tPurchasing</li> <li>3 =\tSales Management</li> <li>9 =\tFinance/Accounting</li> <li>10 = Marketing</li> <li>20 = CFO/Treasurer</li> <li>21 = Controller/Comptrolr</li> <li>30 = Parts Manager</li> <li>41 = Rental Manager</li> <li>50 = Service Manager</li> <li>51 = Shop Foreman</li> <li>AR = AR Contact</li> <li>MM = Maintenance Manager</li> <li>OM = Operations Manager</li> <li>PM = Purchasing Manager</li> <li>X0 = Administration Mgmt</li> <li>X1 = Project Manager</li> <li>X2 = Transportation Mgmt</li> <li>X4 = VP Manufacturing</li> <li>X5 = VP Operations</li> <li>X6 = VP Production</li> <li>X7 = VP Sales</li> <li>X8 = VP Systems</li> <li>X9 = Material Hndlng Mgmt</li> <li>XA = Human Resources</li> <li>XB = Inventory Mgmt</li> <li>XC = Manufacturing Mgmt</li> <li>XD = Safety Mgmt</li> <li>XE = Store Mgmt</li> <li>Y0 = Receptionist</li> <li>Z0 = Account Manager</li> <li>Z1 = Plant Manager</li> <li>Z2 = Plant Maint. Manager</li> <li>Z3 = Asst. Purchasing Mgr</li> <li>Z4 = President/CEO</li> <li>Z5 = VP of Purchasing</li> <li>Z6 = Plant Engineer</li> <li>Z7 = Engineering Mgmt</li> <li>Z8 = Plant Superintendent</li> <li>Z9 = Director Operations</li> <li>ZA = Administration</li> <li>ZB = Chairman</li> <li>ZC = Chief Operatng Offcr</li> <li>ZD = Department Manager</li> <li>ZE = Export Contact</li> <li>ZF = Fleet & Maint. Mgmt</li> <li>ZG = General Manager</li> <li>ZH = Warehouse</li> <li>ZI = Customer Service</li> <li>ZJ = Director</li> <li>ZK = Packaging</li> <li>ZL = Logistics/SpplyChain</li> <li>ZM = Manager</li> <li>ZN = NA Primary Contact</li> <li>ZO = Owner / Proprietor</li> <li>ZP = Professional Service</li> <li>ZQ = Government</li> <li>ZR = Engineer</li> <li>ZS = Shipping</li> <li>ZT = Technical</li> <li>ZU = Distribution Mgt/Dir</li> <li>ZV = Vice President</li> <li>ZW = Warehouse Manager</li> <li>ZX = Facilities Mgmt</li> <li>ZY = Government</li> <li>ZZ = Material Mgmt/Dir</li> </ul>",
+            "enum" : [ "1", "2", "3", "9", "10", "20", "21", "30", "41", "50", "51", "AR", "MM", "OM", "PM", "X0", "X1", "X2", "X4", "X5", "X6", "X7", "X8", "X9", "XA", "XB", "XC", "XD", "XE", "Y0", "Z0", "Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8", "Z9", "ZA", "ZB", "ZC", "ZD", "ZE", "ZF", "ZG", "ZH", "ZI", "ZJ", "ZK", "ZL", "ZM", "ZN", "ZO", "ZP", "ZQ", "ZR", "ZS", "ZT", "ZU", "ZV", "ZW", "ZX", "ZY", "ZZ" ]
+          },
+          "pfText" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Partner Function Text"
+          },
+          "firstName" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "First Name"
+          },
+          "lastName" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Last Name"
+          },
+          "title" : {
+            "maxLength" : 4,
+            "type" : "string",
+            "description" : "Title Code"
+          },
+          "titleTxt" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Title Text"
+          },
+          "department" : {
+            "maxLength" : 4,
+            "type" : "string",
+            "description" : "</p> <ul> <li>0001 = Managing Director</li> <li>0002 = Purchasing</li> <li>0003 = Sales</li> <li>0004 = Organization</li> <li>0005 = Administration</li> <li>0006 = Production</li> <li>0007 = Quality Assurance</li> <li>0008 = Secretaries</li> <li>0009 = Financial Department</li> <li>0010 = Legal Department</li> <li>1001 = Administration</li> <li>1002 = Finance/Accounting</li> <li>1003 = Parts</li> <li>1004 = Sales and Operations</li> <li>1005 = Service</li> </ul>",
+            "enum" : [ "0001", "0002", "0003", "0004", "0005", "0006", "0007", "0008", "0009", "0010", "1001", "1002", "1003", "1004", "1005" ]
+          },
+          "dpmtText" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Department Text"
+          },
+          "address" : {
+            "$ref" : "#/components/schemas/address"
+          },
+          "taxJurisdictionCode" : {
+            "maxLength" : 15,
+            "type" : "string",
+            "description" : "Tax Jurisdiction Code"
+          },
+          "longitude" : {
+            "$ref" : "#/components/schemas/longitude"
+          },
+          "latitude" : {
+            "$ref" : "#/components/schemas/latitude"
+          },
+          "fipsState" : {
+            "$ref" : "#/components/schemas/fipsState"
+          },
+          "fipsCounty" : {
+            "$ref" : "#/components/schemas/fipsCounty"
+          },
+          "prefCommCode" : {
+            "maxLength" : 3,
+            "type" : "string",
+            "description" : "</p> <ul> <li>FAX = FAX</li> <li>INT = Email</li> <li>LET = Post Letter</li> <li>PAG = Pager/SMS</li> <li>TEL = Telephone</li> <li>URI = URL(Homepage)</li> <li>VIS = Sales Call</li> <li>ZEM = Mail and Email</li> </ul>",
+            "enum" : [ "FAX", "INT", "LET", "PAG", "TEL", "URI", "VIS", "ZEM" ]
+          },
+          "prefCommText" : {
+            "maxLength" : 20,
+            "type" : "string",
+            "description" : "Communication Preference Text"
+          },
+          "subscriberId" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Telephone Number"
+          },
+          "subscriberExt" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Telephone Number Extention"
+          },
+          "faxNo" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Fax Number"
+          },
+          "emailAddress" : {
+            "maxLength" : 241,
+            "type" : "string",
+            "description" : "Email Address"
+          },
+          "telephoneRel" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Telephone Relation"
+          },
+          "telephoneExtRel" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Telephone Relation Extension"
+          },
+          "attribute" : {
+            "$ref" : "#/components/schemas/contactAttributes"
+          },
+          "note" : {
+            "maxLength" : 50,
+            "type" : "string",
+            "description" : "Note Text"
+          }
+        },
+        "description" : "Contact Attributes"
+      },
+      "contactUpdateProperties" : {
+        "required" : [ "contactNo" ],
+        "type" : "object",
+        "properties" : {
+          "contactNo" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Business Partner Number"
+          },
+          "accountNo" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Business Partner Account that has relationship with contact"
+          },
+          "accountName" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Relationship Partner Name"
+          },
+          "bpGroup" : {
+            "maxLength" : 4,
+            "type" : "string",
+            "description" : "Partner Group"
+          },
+          "partRelCode" : {
+            "maxLength" : 1,
+            "type" : "string",
+            "description" : "Partner Relationship Code"
+          },
+          "partnerFunction" : {
+            "maxLength" : 4,
+            "type" : "string",
+            "description" : "</p> <ul> <li>1 =\tExecutive</li> <li>2 =\tPurchasing</li> <li>3 =\tSales Management</li> <li>9 =\tFinance/Accounting</li> <li>10 = Marketing</li> <li>20 = CFO/Treasurer</li> <li>21 = Controller/Comptrolr</li> <li>30 = Parts Manager</li> <li>41 = Rental Manager</li> <li>50 = Service Manager</li> <li>51 = Shop Foreman</li> <li>AR = AR Contact</li> <li>MM = Maintenance Manager</li> <li>OM = Operations Manager</li> <li>PM = Purchasing Manager</li> <li>X0 = Administration Mgmt</li> <li>X1 = Project Manager</li> <li>X2 = Transportation Mgmt</li> <li>X4 = VP Manufacturing</li> <li>X5 = VP Operations</li> <li>X6 = VP Production</li> <li>X7 = VP Sales</li> <li>X8 = VP Systems</li> <li>X9 = Material Hndlng Mgmt</li> <li>XA = Human Resources</li> <li>XB = Inventory Mgmt</li> <li>XC = Manufacturing Mgmt</li> <li>XD = Safety Mgmt</li> <li>XE = Store Mgmt</li> <li>Y0 = Receptionist</li> <li>Z0 = Account Manager</li> <li>Z1 = Plant Manager</li> <li>Z2 = Plant Maint. Manager</li> <li>Z3 = Asst. Purchasing Mgr</li> <li>Z4 = President/CEO</li> <li>Z5 = VP of Purchasing</li> <li>Z6 = Plant Engineer</li> <li>Z7 = Engineering Mgmt</li> <li>Z8 = Plant Superintendent</li> <li>Z9 = Director Operations</li> <li>ZA = Administration</li> <li>ZB = Chairman</li> <li>ZC = Chief Operatng Offcr</li> <li>ZD = Department Manager</li> <li>ZE = Export Contact</li> <li>ZF = Fleet & Maint. Mgmt</li> <li>ZG = General Manager</li> <li>ZH = Warehouse</li> <li>ZI = Customer Service</li> <li>ZJ = Director</li> <li>ZK = Packaging</li> <li>ZL = Logistics/SpplyChain</li> <li>ZM = Manager</li> <li>ZN = NA Primary Contact</li> <li>ZO = Owner / Proprietor</li> <li>ZP = Professional Service</li> <li>ZQ = Government</li> <li>ZR = Engineer</li> <li>ZS = Shipping</li> <li>ZT = Technical</li> <li>ZU = Distribution Mgt/Dir</li> <li>ZV = Vice President</li> <li>ZW = Warehouse Manager</li> <li>ZX = Facilities Mgmt</li> <li>ZY = Government</li> <li>ZZ = Material Mgmt/Dir</li> </ul>",
+            "enum" : [ "1", "2", "3", "9", "10", "20", "21", "30", "41", "50", "51", "AR", "MM", "OM", "PM", "X0", "X1", "X2", "X4", "X5", "X6", "X7", "X8", "X9", "XA", "XB", "XC", "XD", "XE", "Y0", "Z0", "Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8", "Z9", "ZA", "ZB", "ZC", "ZD", "ZE", "ZF", "ZG", "ZH", "ZI", "ZJ", "ZK", "ZL", "ZM", "ZN", "ZO", "ZP", "ZQ", "ZR", "ZS", "ZT", "ZU", "ZV", "ZW", "ZX", "ZY", "ZZ" ]
+          },
+          "pfText" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Partner Function Text"
+          },
+          "firstName" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "First Name"
+          },
+          "lastName" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Last Name"
+          },
+          "title" : {
+            "maxLength" : 4,
+            "type" : "string",
+            "description" : "Title Code"
+          },
+          "titleTxt" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Title Text"
+          },
+          "department" : {
+            "maxLength" : 4,
+            "type" : "string",
+            "description" : "</p> <ul> <li>0001 = Managing Director</li> <li>0002 = Purchasing</li> <li>0003 = Sales</li> <li>0004 = Organization</li> <li>0005 = Administration</li> <li>0006 = Production</li> <li>0007 = Quality Assurance</li> <li>0008 = Secretaries</li> <li>0009 = Financial Department</li> <li>0010 = Legal Department</li> <li>1001 = Administration</li> <li>1002 = Finance/Accounting</li> <li>1003 = Parts</li> <li>1004 = Sales and Operations</li> <li>1005 = Service</li> </ul>",
+            "enum" : [ "0001", "0002", "0003", "0004", "0005", "0006", "0007", "0008", "0009", "0010", "1001", "1002", "1003", "1004", "1005" ]
+          },
+          "dpmtText" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Department Text"
+          },
+          "address" : {
+            "$ref" : "#/components/schemas/address"
+          },
+          "taxJurisdictionCode" : {
+            "maxLength" : 15,
+            "type" : "string",
+            "description" : "Tax Jurisdiction Code"
+          },
+          "longitude" : {
+            "$ref" : "#/components/schemas/longitude"
+          },
+          "latitude" : {
+            "$ref" : "#/components/schemas/latitude"
+          },
+          "fipsState" : {
+            "$ref" : "#/components/schemas/fipsState"
+          },
+          "fipsCounty" : {
+            "$ref" : "#/components/schemas/fipsCounty"
+          },
+          "prefCommCode" : {
+            "maxLength" : 3,
+            "type" : "string",
+            "description" : "</p> <ul> <li>FAX = FAX</li> <li>INT = Email</li> <li>LET = Post Letter</li> <li>PAG = Pager/SMS</li> <li>TEL = Telephone</li> <li>URI = URL(Homepage)</li> <li>VIS = Sales Call</li> <li>ZEM = Mail and Email</li> </ul>",
+            "enum" : [ "FAX", "INT", "LET", "PAG", "TEL", "URI", "VIS", "ZEM" ]
+          },
+          "prefCommText" : {
+            "maxLength" : 20,
+            "type" : "string",
+            "description" : "Communication Preference Text"
+          },
+          "subscriberId" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Telephone Number"
+          },
+          "subscriberExt" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Telephone Number Extention"
+          },
+          "faxNo" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Fax Number"
+          },
+          "emailAddress" : {
+            "maxLength" : 241,
+            "type" : "string",
+            "description" : "Email Address"
+          },
+          "telephoneRel" : {
+            "maxLength" : 30,
+            "type" : "string",
+            "description" : "Telephone Relation"
+          },
+          "telephoneExtRel" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Telephone Relation Extension"
+          },
+          "attribute" : {
+            "$ref" : "#/components/schemas/contactAttributes"
+          },
+          "note" : {
+            "maxLength" : 50,
+            "type" : "string",
+            "description" : "Note Text"
+          }
+        },
+        "description" : "Contact Attributes"
+      },
+      "address" : {
+        "required" : [ "countryCode", "postalCode", "street" ],
+        "type" : "object",
+        "properties" : {
+          "poBox" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Postal Office Box",
+            "example" : "601048"
+          },
+          "street" : {
+            "maxLength" : 60,
+            "type" : "string",
+            "description" : "Street",
+            "example" : "5557 Inwood Dr"
+          },
+          "street2" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Additional Street"
+          },
+          "city" : {
+            "maxLength" : 35,
+            "type" : "string",
+            "description" : "City",
+            "example" : "Columbus"
+          },
+          "region" : {
+            "maxLength" : 3,
+            "type" : "string",
+            "description" : "State or Province",
+            "example" : "IN"
+          },
+          "postalCode" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "Postal Code",
+            "example" : "47201"
+          },
+          "countryCode" : {
+            "maxLength" : 3,
+            "type" : "string",
+            "example" : "US"
+          }
+        }
+      },
+      "latitude" : {
+        "maxLength" : 15,
+        "type" : "number",
+        "description" : "Geolocation latitude",
+        "format" : "double"
+      },
+      "longitude" : {
+        "maxLength" : 15,
+        "type" : "number",
+        "description" : "Geolocation longitude",
+        "format" : "double"
+      },
+      "fipsState" : {
+        "maxLength" : 3,
+        "type" : "string",
+        "description" : "State - Federal Information Processing Standards Code"
+      },
+      "fipsCounty" : {
+        "maxLength" : 3,
+        "type" : "string",
+        "description" : "County - Federal Information Processing Standards Code"
+      },
+      "accountAttributes" : {
+        "type" : "object",
+        "properties" : {
+          "accCategoryCode" : {
+            "maxLength" : 1,
+            "type" : "string",
+            "description" : "</p> <ul> <li>N = No - Conquest-No</li> <li>Y = Yes- Conquest-Yes</li> <li>A = NA - National Account</li> <li>P = NPP - National Purchase Program</li> <li>X = LDNPP -Leader Dealer National Purchase Program</li> <li>B = NA2C - National Account to Customer</li> <li>L = LDNA - Leader Dealer National Account</li> </ul>",
+            "enum" : [ "N", "Y", "A", "P", "X", "B", "L" ]
+          },
+          "participantEnabled" : {
+            "type" : "boolean",
+            "description" : "Participant Enable Flag"
+          },
+          "couponEnabled" : {
+            "type" : "boolean",
+            "description" : "Coupon Enable Flag"
+          },
+          "giftEnabled" : {
+            "type" : "boolean",
+            "description" : "Gift Enable Flag"
+          },
+          "abcClass" : {
+            "maxLength" : 1,
+            "type" : "string",
+            "enum" : [ "A", "B", "C", "D" ]
+          },
+          "noMarket" : {
+            "type" : "boolean",
+            "description" : "No Marketing Flag",
+            "example" : false
+          },
+          "archive" : {
+            "type" : "boolean",
+            "description" : "Central Archiving Flag"
+          }
+        }
+      },
+      "contactAttributes" : {
+        "required" : [ "vocCommPref" ],
+        "type" : "object",
+        "properties" : {
+          "vocCommPref" : {
+            "maxLength" : 10,
+            "type" : "string",
+            "description" : "VOC Attribute Preference ",
+            "enum" : [ "MAIL", "E-MAIL" ]
+          },
+          "noMarket" : {
+            "type" : "boolean",
+            "description" : "No Marketing"
+          },
+          "vocSP" : {
+            "type" : "boolean",
+            "description" : "VOC Attribute Survery S & P"
+          },
+          "vocPE" : {
+            "type" : "boolean",
+            "description" : "VOC Attribute Survery P & E"
+          },
+          "vocSD" : {
+            "type" : "boolean",
+            "description" : "VOC Attribute Survery S & D"
+          },
+          "archive" : {
+            "type" : "boolean",
+            "description" : "Central Archiving Flag"
+          }
+        }
+      },
+      "result" : {
+        "required" : [ "message", "status" ],
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "description" : "</p> <ul> <li>100 = Information</li> <li>199 = Warning</li> <li>200 = OK </li> <li>201 = Created</li> <li>400 = Error</li> </ul>",
+            "enum" : [ "100", "199", "200", "201", "400" ]
+          },
+          "referenceId" : {
+            "maxLength" : 40,
+            "type" : "string",
+            "description" : "Reference Identifier"
+          },
+          "message" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/resultItem"
+            }
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Overall Status",
+            "enum" : [ "success", "error" ]
+          }
+        }
+      },
+      "resultItem" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string",
+            "description" : "</p> <ul> <li>I = Information</li> <li>W = Warning</li> <li>W = OK </li> <li>E = Error</li> </ul>",
+            "enum" : [ "I", "W", "S", "E" ]
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "Message Text"
+          }
+        }
+      }
+    },
+    "examples" : {
+      "create-account" : {
+        "value" : {
+          "account" : {
+            "name" : "Toyota",
+            "name2" : "Toyota Material Handling",
+            "externalAccountNo" : "C002208",
+            "externalContactNo" : "CM-120654",
+            "bpGroup" : "",
+            "titleKey" : "",
+            "mainDealer" : "70210",
+            "address" : {
+              "poBox" : "",
+              "street" : "5557 Inwood Dri",
+              "city" : "Columbus",
+              "region" : "IN",
+              "postalCode" : "47201",
+              "countryCode" : "US"
+            },
+            "phoneNo" : "812-342-8321",
+            "phoneExt" : "",
+            "faxNo" : "",
+            "emailAddress" : "jon.prow@tmhna.com",
+            "webUrl" : "www.toyotaforklift.com",
+            "latitude" : 39.41353,
+            "longitude" : -86.15108,
+            "fipsState" : "",
+            "fipsCounty" : "",
+            "poAddress" : {
+              "poBox" : "",
+              "street" : "5557 Inwood Dr",
+              "street2" : "",
+              "city" : "Columbus",
+              "region" : "IN",
+              "postalCode" : "47201",
+              "countryCode" : "US"
+            },
+            "attribute" : {
+              "participantEnabled" : false,
+              "couponEnabled" : false,
+              "giftEnabled" : false,
+              "abcClass" : "A",
+              "noMarket" : false,
+              "archive" : false
+            }
+          }
+        }
+      },
+      "create-account-contact" : {
+        "value" : {
+          "account" : {
+            "name" : "Toyota",
+            "name2" : "Toyota Material Handling",
+            "externalAccountNo" : "C002208",
+            "externalContactNo" : "CM-120654",
+            "bpGroup" : "",
+            "titleKey" : "",
+            "mainDealer" : "70209",
+            "address" : {
+              "poBox" : "",
+              "street" : "5557 Inwood Dri",
+              "city" : "Columbus",
+              "region" : "IN",
+              "postalCode" : "47201",
+              "countryCode" : "US"
+            },
+            "phoneNo" : "812-342-8321",
+            "phoneExt" : "",
+            "faxNo" : "",
+            "emailAddress" : "jon.prow@tmhna.com",
+            "webUrl" : "www.toyotaforklift.com",
+            "latitude" : 39.41353,
+            "longitude" : -86.15108,
+            "fipsState" : "",
+            "fipsCounty" : "",
+            "poAddress" : {
+              "poBox" : "",
+              "street" : "5557 Inwood Dr",
+              "street2" : "",
+              "city" : "Columbus",
+              "region" : "IN",
+              "postalCode" : "47201",
+              "countryCode" : "US"
+            },
+            "attribute" : {
+              "participantEnabled" : false,
+              "couponEnabled" : false,
+              "giftEnabled" : false,
+              "abcClass" : "A",
+              "noMarket" : false,
+              "archive" : false
+            },
+            "contact" : [ {
+              "accountNo" : "",
+              "accountName" : "",
+              "bpGroup" : "",
+              "partRelCode" : "",
+              "partnerFunction" : "",
+              "pfText" : "",
+              "firstName" : "Jon",
+              "lastName" : "Prow",
+              "title" : "",
+              "titleText" : "",
+              "department" : "",
+              "dpmtText" : "",
+              "address" : {
+                "street" : "102 N Raymond Ave",
+                "city" : "Trafalgar",
+                "region" : "IN",
+                "postalCode" : "46181",
+                "countryCode" : "US"
+              },
+              "taxJurisdictionCode" : "",
+              "latitude" : 39.41379,
+              "longitude" : -86.15108,
+              "fipsState" : "",
+              "fipsCounty" : "",
+              "prefCommCode" : "",
+              "prefCommText" : "",
+              "subscriberId" : "812-342-8321",
+              "subscriberExtension" : "",
+              "faxNo" : "",
+              "emailAddress" : "jon.prow@tmhna.com",
+              "telephoneRel" : "",
+              "telephoneExtRel" : "",
+              "attribute" : {
+                "vocCommPref" : "MAIL",
+                "noMarket" : false,
+                "vocSP" : false,
+                "vocPE" : false,
+                "vocSD" : false,
+                "archive" : false
+              },
+              "notes" : ""
+            }, {
+              "accountNo" : "",
+              "accountName" : "",
+              "bpGroup" : "",
+              "partRelCode" : "",
+              "partnerFunction" : "",
+              "pfText" : "",
+              "firstName" : "Jon",
+              "lastName" : "Prow",
+              "title" : "",
+              "titleText" : "",
+              "department" : "",
+              "dpmtText" : "",
+              "address" : {
+                "street" : "102 N Raymond Ave",
+                "city" : "Trafalgar",
+                "region" : "IN",
+                "postalCode" : "46181",
+                "countryCode" : "US"
+              },
+              "taxJurisdictionCode" : "",
+              "latitude" : 39.41379,
+              "longitude" : -86.15108,
+              "fipsState" : "",
+              "fipsCounty" : "",
+              "prefCommCode" : "",
+              "prefCommText" : "",
+              "subscriberId" : "812-342-8321",
+              "subscriberExtension" : "",
+              "faxNo" : "",
+              "emailAddress" : "jon.prow@tmhna.com",
+              "telephoneRel" : "",
+              "telephoneExtRel" : "",
+              "attribute" : {
+                "vocCommPref" : "MAIL",
+                "noMarket" : false,
+                "vocSP" : false,
+                "vocPE" : false,
+                "vocSD" : false,
+                "archive" : false
+              },
+              "notes" : ""
+            } ]
+          }
+        }
+      },
+      "update-account" : {
+        "value" : {
+          "account" : {
+            "accountNo" : "60007357",
+            "name" : "Toyota Material Handling"
+          }
+        }
+      },
+      "create-contact" : {
+        "value" : {
+          "contact" : {
+            "accountNo" : "",
+            "accountName" : "",
+            "bpGroup" : "",
+            "partRelCode" : "",
+            "partnerFunction" : "",
+            "pfText" : "",
+            "firstName" : "Jon",
+            "lastName" : "Prow",
+            "title" : "",
+            "titleText" : "",
+            "department" : "",
+            "dpmtText" : "",
+            "address" : {
+              "street" : "5557 Inwood Dr",
+              "city" : "Columbus",
+              "region" : "IN",
+              "postalCode" : "47201",
+              "countryCode" : "US"
+            },
+            "taxJurisdictionCode" : "",
+            "latitude" : 39.41379,
+            "longitude" : -86.15108,
+            "fipsState" : "",
+            "fipsCounty" : "",
+            "prefCommCode" : "",
+            "prefCommText" : "",
+            "subscriberId" : "812-342-8321",
+            "subscriberExtension" : "",
+            "faxNo" : "",
+            "emailAddress" : "jon.prow@tmhna.com",
+            "telephoneRel" : "",
+            "telephoneExtRel" : "",
+            "attribute" : {
+              "vocCommPref" : "MAIL",
+              "noMarket" : "",
+              "vocSP" : "",
+              "vocPE" : "",
+              "vocSD" : "",
+              "archive" : false
+            },
+            "notes" : ""
+          }
+        }
+      },
+      "update-contact" : {
+        "value" : {
+          "contact" : {
+            "contactNo" : "0060007614",
+            "accountName" : "",
+            "bpGroup" : "",
+            "partRelCode" : "",
+            "partnerFunction" : "",
+            "pfText" : "",
+            "firstName" : "Jon",
+            "lastName" : "Prow",
+            "title" : "",
+            "titleText" : "",
+            "department" : "",
+            "dpmtText" : "",
+            "address" : {
+              "street" : "5557 Inwood Dr",
+              "city" : "Columbus",
+              "region" : "IN",
+              "postalCode" : "47201",
+              "countryCode" : "US"
+            },
+            "taxJurisdictionCode" : "",
+            "latitude" : 39.41379,
+            "longitude" : -86.15108,
+            "fipsState" : "",
+            "fipsCounty" : "",
+            "prefCommCode" : "",
+            "prefCommText" : "",
+            "subscriberId" : "812-342-8321",
+            "subscriberExtension" : "",
+            "faxNo" : "",
+            "emailAddress" : "jon.prow@tmhna.com",
+            "telephoneRel" : "",
+            "telephoneExtRel" : "",
+            "attribute" : {
+              "vocCommPref" : "MAIL",
+              "noMarket" : false,
+              "vocSP" : "",
+              "vocPE" : "",
+              "vocSD" : "",
+              "archive" : false
+            },
+            "notes" : ""
+          }
+        }
+      },
+      "accountResponse200" : {
+        "value" : {
+          "code" : "200",
+          "referenceId" : "60007357",
+          "message" : [ {
+            "code" : "S",
+            "message" : "Account is Duplicate"
+          } ],
+          "status" : "success"
+        }
+      },
+      "accountResponse201" : {
+        "value" : {
+          "code" : "200",
+          "referenceId" : "60007357",
+          "message" : [ {
+            "code" : "S",
+            "message" : "Account Created"
+          } ],
+          "status" : "success"
+        }
+      },
+      "contactResponse201" : {
+        "value" : {
+          "code" : "201",
+          "referenceId" : "621510",
+          "message" : [ {
+            "code" : "S",
+            "message" : "Contact Created"
+          } ],
+          "status" : "success"
+        }
+      },
+      "contactResponse200" : {
+        "value" : {
+          "code" : "200",
+          "referenceId" : "621510",
+          "message" : [ {
+            "code" : "S",
+            "message" : "Contact is Duplicate"
+          } ],
+          "status" : "success"
+        }
+      },
+      "contactResponse400" : {
+        "value" : {
+          "code" : "400",
+          "message" : [ {
+            "code" : "E",
+            "message" : "Business partner with GUID 000D3A024DF71EDB99A90B6A2BC6254A does not exist"
+          } ],
+          "status" : "error"
+        }
+      },
+      "accountContactResponse200" : {
+        "value" : {
+          "account" : {
+            "code" : "200",
+            "referenceId" : "60007357",
+            "message" : [ {
+              "code" : "S",
+              "message" : "Account is Duplicate"
+            } ],
+            "status" : "success"
+          },
+          "contact" : {
+            "code" : "200",
+            "referenceId" : "621510",
+            "message" : [ {
+              "code" : "S",
+              "message" : "Contact is Duplicate"
+            } ],
+            "status" : "success"
+          }
+        }
+      },
+      "response202" : {
+        "value" : {
+          "code" : "202",
+          "message" : [ {
+            "code" : "S",
+            "message" : "Accepted for processing"
+          } ],
+          "status" : "success"
+        }
+      }
+    }
+  }
+}
