@@ -7,7 +7,7 @@
     "x-targetEndpoint" : "https://tmhna-test.apimanagement.us3.hana.ondemand.com:443/v1/tmh/crm"
   },
   "servers" : [ {
-    "url" : "https://tmhna-test.apimanagement.us3.hana.ondemand.com:443/v1/tmh/crm",
+    "url" : "https://tmhna-test.apimanagement.us3.hana.ondemand.com:443/v2/tmh/crm",
     "description" : "Test server"
   }, {
     "url" : "https://api.tmhna.com:443/v1/tmh/crm",
