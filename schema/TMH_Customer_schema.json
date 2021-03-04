@@ -2,7 +2,7 @@
   "openapi" : "3.0.1",
   "info" : {
     "title" : "TMH Customer",
-    "description" : "</p>TMH Customer related APIs <ul> <li>1.0.9</li> <li>Removed fields - latitude, longitude, fipsState, fipsCounty, bpGroup, mainDealer from all APIs</li> <li>Added field - itgAccountId to all APIs</li> </ul>",
+    "description" : "</p>TMH Customer related APIs <ul> <li>1.0.9</li> <li>Removed fields - latitude, longitude, fipsState, fipsCounty, bpGroup from all APIs</li> <li>Added field - itgAccountId to all APIs</li> </ul>",
     "version" : "1.0.9",
     "x-targetEndpoint" : "https://tmhna-test.apimanagement.us3.hana.ondemand.com:443/v1/tmh/crm"
   },
@@ -788,6 +788,7 @@
             "externalContactNo" : "CM-120654",
             "itgAccountId" : "6",
             "titleKey" : "",
+            "mainDealer" : "70209",
             "address" : {
               "poBox" : "",
               "street" : "5557 Inwood Dri",
