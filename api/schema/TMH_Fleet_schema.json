@@ -328,7 +328,6 @@
             "invoiceDate" : "2021-01-18",
             "invoiceType" : "PM_SERVICE",
             "customerPO" : "0132000267",
-            "customerLocation" : "0HD0108",
             "workOrder" : "0132000267",
             "workOrderDate" : "2021-01-12",
             "dealerId" : "0000070210",
