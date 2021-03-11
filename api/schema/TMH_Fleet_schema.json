@@ -63,7 +63,7 @@
         }
       },
       "invoice" : {
-        "required" : [ "customerId", "dealerId", "invoiceDate", "invoiceNo", "orderDetail", "workOrder" ],
+        "required" : [ "dealerCustomerId", "dealerId", "invoiceDate", "invoiceNo", "orderDetail", "workOrder" ],
         "type" : "object",
         "properties" : {
           "invoiceNo" : {
@@ -109,11 +109,11 @@
             "description" : "Servicing Dealer Identifier",
             "example" : "70099"
           },
-          "customerId" : {
+          "dealerCustomerId" : {
             "maxLength" : 30,
             "type" : "string",
-            "description" : "Customer Identifier Receiving Service",
-            "example" : "MC1879023"
+            "description" : "Dealer's Customer Identifier (Fleet Customer Location)",
+            "example" : "CT00100"
           },
           "totalAmount" : {
             "maxLength" : 15,
@@ -331,7 +331,7 @@
             "workOrder" : "0132000267",
             "workOrderDate" : "2021-01-12",
             "dealerId" : "0000070210",
-            "customerId" : "8000127",
+            "dealerCustomerId" : "C00100",
             "totalAmount" : 291.59,
             "description" : "",
             "orderDetail" : {
