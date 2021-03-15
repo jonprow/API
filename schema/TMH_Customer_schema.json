@@ -420,7 +420,7 @@
         "type" : "object",
         "properties" : {
           "contact" : {
-            "$ref" : "#/components/schemas/contactCreateProperties"
+            "$ref" : "#/components/schemas/contactProperties"
           }
         }
       },
@@ -428,29 +428,9 @@
         "type" : "object",
         "properties" : {
           "contact" : {
-            "$ref" : "#/components/schemas/contactUpdateProperties"
+            "$ref" : "#/components/schemas/contactProperties"
           }
         }
-      },
-      "contactUpdateProperties" : {
-        "required" : [ "contactNo" ],
-        "type" : "object",
-        "properties" : {
-          "contactProperties" : {
-            "$ref" : "#/components/schemas/contactProperties"
-          }
-        },
-        "description" : "Contact Attributes"
-      },
-      "contactCreateProperties" : {
-        "required" : [ "accountNo" ],
-        "type" : "object",
-        "properties" : {
-          "contact" : {
-            "$ref" : "#/components/schemas/contactProperties"
-          }
-        },
-        "description" : "Contact Attributes"
       },
       "contactProperties" : {
         "type" : "object",
@@ -639,28 +619,6 @@
         "type" : "string",
         "description" : "Integration Contact Id",
         "example" : "9"
-      },
-      "latitude" : {
-        "maxLength" : 15,
-        "type" : "number",
-        "description" : "Geolocation latitude",
-        "format" : "double"
-      },
-      "longitude" : {
-        "maxLength" : 15,
-        "type" : "number",
-        "description" : "Geolocation longitude",
-        "format" : "double"
-      },
-      "fipsState" : {
-        "maxLength" : 3,
-        "type" : "string",
-        "description" : "State - Federal Information Processing Standards Code"
-      },
-      "fipsCounty" : {
-        "maxLength" : 3,
-        "type" : "string",
-        "description" : "County - Federal Information Processing Standards Code"
       },
       "accountAttributes" : {
         "type" : "object",
@@ -1115,6 +1073,14 @@
           } ],
           "status" : "success"
         }
+      }
+    },
+    "securitySchemes" : {
+      "apiKey" : {
+        "type" : "apiKey",
+        "description" : "API key used to authorize requests",
+        "name" : "apikey",
+        "in" : "header"
       }
     }
   }
