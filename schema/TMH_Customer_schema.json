@@ -2,7 +2,7 @@
   "openapi" : "3.0.1",
   "info" : {
     "title" : "TMH Customer",
-    "description" : "</p>TMH Customer related APIs <ul> <li>1.1.0</li> <li>Added - itgContactId</li> </ul>",
+    "description" : "</p>TMH Customer related APIs <ul> <li>1.1.0</li> <li>Added - itgContactId</li> <li>Removed - 202 Response Examples</li> </ul>",
     "version" : "1.1.0",
     "x-targetEndpoint" : "https://tmhna-test.apimanagement.us3.hana.ondemand.com:443/v1/tmh/crm"
   },
@@ -86,21 +86,6 @@
                   },
                   "result-create-account-contact" : {
                     "$ref" : "#/components/examples/accountContactResponse200"
-                  }
-                }
-              }
-            }
-          },
-          "202" : {
-            "description" : "Accepted for Processing",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/result"
-                },
-                "examples" : {
-                  "result-create-account" : {
-                    "$ref" : "#/components/examples/response202"
                   }
                 }
               }
@@ -817,7 +802,6 @@
             "contact" : [ {
               "accountNo" : "",
               "accountName" : "",
-              "bpGroup" : "",
               "partRelCode" : "",
               "partnerFunction" : "",
               "pfText" : "",
@@ -855,7 +839,6 @@
             }, {
               "accountNo" : "",
               "accountName" : "",
-              "bpGroup" : "",
               "partRelCode" : "",
               "partnerFunction" : "",
               "pfText" : "",
@@ -907,7 +890,7 @@
           "contact" : {
             "accountNo" : "",
             "accountName" : "",
-            "itgAccountId" : "6",
+            "itgContactId" : "6",
             "partRelCode" : "",
             "partnerFunction" : "",
             "pfText" : "",
@@ -950,7 +933,7 @@
           "contact" : {
             "contactNo" : "0060007614",
             "accountName" : "",
-            "itgAccountId" : "6",
+            "itgContactId" : "6",
             "partRelCode" : "",
             "partnerFunction" : "",
             "pfText" : "",
@@ -1062,16 +1045,6 @@
             } ],
             "status" : "success"
           }
-        }
-      },
-      "response202" : {
-        "value" : {
-          "code" : "202",
-          "message" : [ {
-            "code" : "S",
-            "message" : "Accepted for processing"
-          } ],
-          "status" : "success"
         }
       }
     },
