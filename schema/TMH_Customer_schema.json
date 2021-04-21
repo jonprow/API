@@ -2,7 +2,7 @@
   "openapi" : "3.0.1",
   "info" : {
     "title" : "TMH Customer",
-    "description" : "</p>TMH Customer related APIs <ul> <li>1.1.0</li> <li>Added - itgContactId</li> <li>Removed - 202 Response Examples</li> </ul>",
+    "description" : "</p>TMH Customer related APIs <ul> <li>1.1.0</li> <li>Added - itgContactId</li> <li>itg fields updated from string to integer</li> <li>Added apikey security to the schema</li> <li>Removed - 202 Response Examples</li> </ul>",
     "version" : "1.1.0",
     "x-targetEndpoint" : "https://tmhna-test.apimanagement.us3.hana.ondemand.com:443/v1/tmh/crm"
   },
@@ -49,7 +49,10 @@
               }
             }
           }
-        }
+        },
+        "security" : [ {
+          "apiKey" : [ "apikey" ]
+        } ]
       },
       "post" : {
         "tags" : [ "Account" ],
@@ -91,7 +94,10 @@
               }
             }
           }
-        }
+        },
+        "security" : [ {
+          "apiKey" : [ "apikey" ]
+        } ]
       }
     },
     "/contact" : {
@@ -129,7 +135,10 @@
               }
             }
           }
-        }
+        },
+        "security" : [ {
+          "apiKey" : [ "apikey" ]
+        } ]
       },
       "post" : {
         "tags" : [ "Contact" ],
@@ -165,7 +174,10 @@
               }
             }
           }
-        }
+        },
+        "security" : [ {
+          "apiKey" : [ "apikey" ]
+        } ]
       }
     }
   },
@@ -596,14 +608,14 @@
         }
       },
       "itgAccountId" : {
-        "type" : "string",
+        "type" : "integer",
         "description" : "Integration Account Id",
-        "example" : "12"
+        "example" : 12688
       },
       "itgContactId" : {
-        "type" : "string",
+        "type" : "integer",
         "description" : "Integration Contact Id",
-        "example" : "9"
+        "example" : 9
       },
       "accountAttributes" : {
         "type" : "object",
@@ -724,7 +736,7 @@
             "name2" : "Toyota Material Handling",
             "externalAccountNo" : "C002208",
             "externalContactNo" : "CM-120654",
-            "itgAccountId" : "6",
+            "itgAccountId" : 6,
             "titleKey" : "",
             "mainDealer" : "70209",
             "address" : {
@@ -767,7 +779,7 @@
             "name2" : "Toyota Material Handling",
             "externalAccountNo" : "C002208",
             "externalContactNo" : "CM-120654",
-            "itgAccountId" : "6",
+            "itgAccountId" : 6,
             "titleKey" : "",
             "address" : {
               "poBox" : "",
@@ -890,7 +902,7 @@
           "contact" : {
             "accountNo" : "",
             "accountName" : "",
-            "itgContactId" : "6",
+            "itgContactId" : 6,
             "partRelCode" : "",
             "partnerFunction" : "",
             "pfText" : "",
@@ -933,7 +945,7 @@
           "contact" : {
             "contactNo" : "0060007614",
             "accountName" : "",
-            "itgContactId" : "6",
+            "itgContactId" : 6,
             "partRelCode" : "",
             "partnerFunction" : "",
             "pfText" : "",
