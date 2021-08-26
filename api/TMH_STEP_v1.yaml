@@ -1,0 +1,961 @@
+openapi: 3.0.1
+info:
+  title: TMH_STEP_v1
+  description: <p>The STEP REST API V2</p>
+  version: 1.3.2
+servers:
+- url: https://api-test.tmhna.com:443/restapiv2
+  description: Test server
+- url: https://api.tmhna.com/fleet/restapiv2
+  description: Production server
+security:
+- basicAuth: []
+  bearerAuth: []
+paths:
+  /entities/find-similar:
+    post:
+      tags:
+      - Entities
+      summary: Performs a find similar operation for entities
+      description: Operation for finding entities similar to the request. Find similar
+        is a search based on a matching algorithm Setup Entity. The behavior of the
+        web service is defined by a Web Service Configuration Setup Entity. Operation
+        will return a maximum of 1000 results.
+      parameters:
+      - name: WebserviceConfigurationID
+        in: query
+        description: ID of the Find Similar Webservice Setup Entity that holds the
+          configuration
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: context
+        in: query
+        description: ID of the context in which to perform the operation
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: workspace
+        in: query
+        description: ID of the workspace in which to perform the operation. Defaults
+          to "Main".
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: Main
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindSimilarEntitiesRequest'
+      responses:
+        "200":
+          description: Find similar result with execution report and similar entities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindSimilarEntitiesResponse'
+        "400":
+          description: "Error caused by client or misconfiguration. Returned if, for\
+            \ instance, invalid context/workspace/endpoint information is supplied,\
+            \ endpoint not correct configured or if the entire operation fails."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "403":
+          description: If the authorisation used for the request does not permit action(s)
+            required for performing find similar.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "406":
+          description: If a Business Action configured on the Web Service Endpoint
+            fails for whatever reason.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "412":
+          description: If a Business Condition configured on the Web Service Endpoint
+            rejects the incoming Entity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /entities/{id}/children:
+    get:
+      tags:
+      - Entities
+      summary: Returns a streamed array of IDs for entity children
+      description: "Returns a streamed array of IDs for entities directly below the\
+        \ specified entity. The entity can be identified either by its STEP ID or\
+        \ if a value for the \"keyId\" query parameter is supplied, by its key value\
+        \ for the specified key."
+      parameters:
+      - name: id
+        in: path
+        description: ID / key value of the entity for which to retrieve children information
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: keyId
+        in: query
+        description: "ID of the key definition to be used for identifying the entity.\
+          \ If supplied, a key value should be supplied for the \"id\" path parameter."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: context
+        in: query
+        description: ID of the context in which to perform the operation
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: workspace
+        in: query
+        description: ID of the workspace in which to perform the operation. Defaults
+          to "Main".
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: Main
+      responses:
+        "200":
+          description: A streamed array of IDs for entities directly below the specified
+            entity
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "400":
+          description: "Error caused by client. Returned if, for instance, invalid\
+            \ context or workspace information is supplied."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "404":
+          description: If the specified entity cannot be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    AndCondition:
+      required:
+      - conditionType
+      - conditions
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: The condition type. Must have the value "and" for this type
+            of condition.
+          enum:
+          - and
+          - or
+          - id
+          - name
+          - textvalue
+          - numericvalue
+          - objecttype
+          - simplebelow
+          - lovvalue
+          - hasreferenceto
+          - hasdatacontainerobject
+        conditions:
+          maxItems: 5
+          minItems: 2
+          type: array
+          description: The conditions to be AND'ed
+          items:
+            $ref: '#/components/schemas/Condition'
+      description: Compound condition that lets you "AND" multiple other conditions
+    Condition:
+      type: object
+      properties:
+        conditionType:
+          type: string
+          enum:
+          - and
+          - or
+          - id
+          - name
+          - textvalue
+          - numericvalue
+          - objecttype
+          - simplebelow
+          - lovvalue
+          - hasreferenceto
+          - hasdatacontainerobject
+      description: "An \"abstract\" representation of a condition. Must always either\
+        \ be an AndCondition, an OrCondition, an IdCondition, a NameCondition, a TextValueCondition,\
+        \ a NumericValueCondition, an ObjectTypeCondition, a SimpleBelowCondition,\
+        \ an LovValueCondition, a HasReferenceToCondition or a HasDataContainerObjectCondition."
+      oneOf:
+      - $ref: '#/components/schemas/AndCondition'
+      - $ref: '#/components/schemas/OrCondition'
+      - $ref: '#/components/schemas/IdCondition'
+      - $ref: '#/components/schemas/NameCondition'
+      - $ref: '#/components/schemas/TextValueCondition'
+      - $ref: '#/components/schemas/NumericValueCondition'
+      - $ref: '#/components/schemas/ObjectTypeCondition'
+      - $ref: '#/components/schemas/SimpleBelowCondition'
+      - $ref: '#/components/schemas/LovValueCondition'
+      - $ref: '#/components/schemas/HasReferenceToCondition'
+      - $ref: '#/components/schemas/HasDataContainerObjectCondition'
+    DataContainer:
+      type: object
+      description: An "abstract" representation of a data container. Will always either
+        be a SingleDataContainer or a MultiDataContainer depending on whether the
+        data container type is multivalued.
+      oneOf:
+      - $ref: '#/components/schemas/SingleDataContainer'
+      - $ref: '#/components/schemas/MultiDataContainer'
+    DataContainerEntry:
+      type: object
+      properties:
+        values:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Value'
+          description: Data container values. Keys are attribute IDs and values either
+            a SingleValue or a MultiValue depending on whether the attribute is multivalued.
+        references:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Reference'
+          description: References from the data container. Keys are reference type
+            IDs and values either a SingleReference or a MultiReference depending
+            on whether the reference type is multivalued.
+      description: An atomic data container a.k.a. a data container object
+    DataContainerObjectCondition:
+      type: object
+      description: "An \"abstract\" representation of a condition that can be used\
+        \ to match data container objects. Must always either be an AndCondition,\
+        \ an OrCondition, a TextValueCondition, a NumericValueCondition, or an LovValueCondition.\
+        \ Notice that conditions nested in compound conditions must also be valid\
+        \ data container object conditions."
+      oneOf:
+      - $ref: '#/components/schemas/AndCondition'
+      - $ref: '#/components/schemas/OrCondition'
+      - $ref: '#/components/schemas/TextValueCondition'
+      - $ref: '#/components/schemas/NumericValueCondition'
+      - $ref: '#/components/schemas/LovValueCondition'
+    Entity:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the entity object
+          readOnly: true
+        name:
+          type: string
+          description: Entity name
+        objectType:
+          type: string
+          description: Object type ID
+        parent:
+          type: string
+          description: Parent entity ID
+        values:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Value'
+          description: Entity values. Keys are attribute IDs and values either a SingleValue
+            or a MultiValue depending on whether the attribute is multivalued.
+        references:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Reference'
+          description: References from the entity. Keys are reference type IDs and
+            values either a SingleReference or a MultiReference depending on whether
+            the reference type is multivalued.
+        dataContainers:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DataContainer'
+          description: Entity data containers. Keys are data container type IDs and
+            values either a SingleDataContainer or a MultiDataContainer depending
+            on whether the data container type is multivalued.
+      description: An entity object
+    Error:
+      type: object
+      properties:
+        httpStatus:
+          type: integer
+          description: The HTTP status code
+          format: int32
+        message:
+          type: string
+          description: Extended error information. Notice that error messages may
+            change without warning and that programming logic should not rely upon
+            the content of the message.
+        httpReason:
+          type: string
+          description: The name of the HTTP status code
+    FindSimilarBusinessRuleResult:
+      type: object
+      properties:
+        businessConditionID:
+          type: string
+          description: ID of rejecting business condition
+        businessConditionMessage:
+          type: string
+          description: Message from rejecting business rule
+        dataIssuesReport:
+          type: array
+          description: Optional detailed messages about data issues
+          items:
+            type: string
+      description: Object holding additional information about business rule that
+        rejects the incoming entity as source for find similar
+    FindSimilarEntitiesRequest:
+      type: object
+      properties:
+        maxResults:
+          type: integer
+          description: Optional specification for maximum number of similar entities
+            to return. Defaults to 10 and can not exceed 1000.
+          format: int32
+          readOnly: true
+          default: 10
+        entity:
+          $ref: '#/components/schemas/Entity'
+      description: Object holding the data for a Find Similar operation for entities
+    FindSimilarEntitiesResponse:
+      type: object
+      properties:
+        findSimilarExecutionReport:
+          $ref: '#/components/schemas/FindSimilarExecutionReport'
+        findSimilarResponses:
+          type: array
+          description: Potential duplicates with rank scores
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/FindSimilarEntitiesResponseRecord'
+      description: Object holding the result of a Find Similar operation
+    FindSimilarEntitiesResponseRecord:
+      type: object
+      properties:
+        rank:
+          type: integer
+          description: Rank score against entity in the request as calculated by the
+            Matching Algorithm.
+          format: int32
+          readOnly: true
+        entity:
+          $ref: '#/components/schemas/Entity'
+      description: Object holding an entity and its rank score with the entity in
+        the request
+    FindSimilarExecutionReport:
+      type: object
+      properties:
+        httpStatus:
+          type: integer
+          description: The HTTP status code
+          format: int32
+        httpReason:
+          type: string
+          description: The name of the HTTP status code
+        message:
+          type: string
+          description: Extended error information that can be shown to users.
+        rejectedByBusinessRuleID:
+          type: string
+          description: ID of first failing or rejecting business rule
+        businessRuleRejections:
+          type: array
+          description: Detailed information from all rejecting business rules
+          items:
+            $ref: '#/components/schemas/FindSimilarBusinessRuleResult'
+      description: Object holding additional information about the result of the find
+        similar operation
+    HasDataContainerObjectCondition:
+      required:
+      - condition
+      - conditionType
+      - dataContainerType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: The condition type. Must have the value "hasdatacontainerobject"
+            for this type of condition.
+          enum:
+          - and
+          - or
+          - id
+          - name
+          - textvalue
+          - numericvalue
+          - objecttype
+          - simplebelow
+          - lovvalue
+          - hasreferenceto
+          - hasdatacontainerobject
+        dataContainerType:
+          type: string
+          description: The data container type ID
+        matchInheritedDataContainerObjects:
+          type: boolean
+          description: Should the query match hierarchically inherited data container
+            objects
+          default: false
+        condition:
+          $ref: '#/components/schemas/DataContainerObjectCondition'
+      description: Condition type for matching objects that have data container objects
+        with specific properties
+    HasReferenceToCondition:
+      required:
+      - conditionType
+      - referenceType
+      - target
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: The condition type. Must have the value "hasreferenceto" for
+            this type of condition.
+          enum:
+          - and
+          - or
+          - id
+          - name
+          - textvalue
+          - numericvalue
+          - objecttype
+          - simplebelow
+          - lovvalue
+          - hasreferenceto
+          - hasdatacontainerobject
+        referenceType:
+          type: string
+          description: The reference type ID
+        target:
+          type: string
+          description: The target node ID. Super type will be deduced from the reference
+            type.
+        matchInheritedReferences:
+          type: boolean
+          description: Should the query match hierarchically inherited cross references
+          default: false
+        metadataCondition:
+          $ref: '#/components/schemas/ReferenceMetadataCondition'
+      description: Has reference query condition. Matches objects that have cross
+        references to the specified target object. This condition type cannot be used
+        to match objects by classification product links.
+    IdCondition:
+      required:
+      - conditionType
+      - operator
+      - queryString
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: The condition type. Must have the value "id" for this type
+            of condition.
+          enum:
+          - and
+          - or
+          - id
+          - name
+          - textvalue
+          - numericvalue
+          - objecttype
+          - simplebelow
+          - lovvalue
+          - hasreferenceto
+          - hasdatacontainerobject
+        operator:
+          type: string
+          description: The condition operator
+          enum:
+          - like
+          - eq
+          - neq
+        queryString:
+          type: string
+          description: "The query string. When the \"like\" operator is used, the\
+            \ wildcards \"*\" (any number of characters) and \"?\" (single character)\
+            \ can be used in the query string. Wildcard characters can be escaped\
+            \ using \"\\\". I.e. like(\"\\\\?*\") will match values starting with\
+            \ a question mark. Notice that backslash character (\"\\\") needs to be\
+            \ escaped if searching for that character. Notice that queries starting\
+            \ with a wildcard typically will not perform well."
+      description: Node ID query condition
+    LovValueCondition:
+      required:
+      - attribute
+      - conditionType
+      - valueId
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: The condition type. Must have the value "lovvalue" for this
+            type of condition.
+          enum:
+          - and
+          - or
+          - id
+          - name
+          - textvalue
+          - numericvalue
+          - objecttype
+          - simplebelow
+          - lovvalue
+          - hasreferenceto
+          - hasdatacontainerobject
+        attribute:
+          type: string
+          description: Id of the attribute for which to match the value
+        valueId:
+          type: string
+          description: The value ID
+        matchInheritedValues:
+          type: boolean
+          description: Should the query match hierarchically inherited values
+          default: false
+      description: LOV value query condition. This type of value condition can be
+        used for LOV validated attributes for which the LOV uses value IDs.
+    MultiDataContainer:
+      type: object
+      properties:
+        dataContainers:
+          type: array
+          description: Contained data entries / objects
+          items:
+            $ref: '#/components/schemas/DataContainerEntry'
+      additionalProperties: false
+      description: Data containers for a multivalued data container type
+    MultiReference:
+      type: object
+      properties:
+        references:
+          type: array
+          description: Multiple references of specific reference type
+          items:
+            $ref: '#/components/schemas/ReferenceEntry'
+      additionalProperties: false
+      description: References for a multivalued reference type. Covers both "cross
+        references" and "classification product links".
+    MultiValue:
+      type: object
+      properties:
+        contextLocal:
+          type: boolean
+          description: "Indicates whether the value is set locally or inherited from\
+            \ a dimension point / a combination dimension points different from the\
+            \ ones used for current context. Should not be supplied for value updates.\
+            \ If supplied with the value \"false\", the update of the specific value\
+            \ will be skipped."
+          readOnly: true
+        values:
+          type: array
+          description: Multiple values entries for multivalued attribute
+          items:
+            $ref: '#/components/schemas/ValueEntry'
+      additionalProperties: false
+      description: A value for a multivalued attribute
+    NameCondition:
+      required:
+      - conditionType
+      - operator
+      - queryString
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: The condition type. Must have the value "name" for this type
+            of condition.
+          enum:
+          - and
+          - or
+          - id
+          - name
+          - textvalue
+          - numericvalue
+          - objecttype
+          - simplebelow
+          - lovvalue
+          - hasreferenceto
+          - hasdatacontainerobject
+        operator:
+          type: string
+          description: The condition operator
+          enum:
+          - like
+          - eq
+          - neq
+        queryString:
+          type: string
+          description: "The query string. When the \"like\" operator is used, the\
+            \ wildcards \"*\" (any number of characters) and \"?\" (single character)\
+            \ can be used in the query string. Wildcard characters can be escaped\
+            \ using \"\\\". I.e. like(\"\\\\?*\") will match values starting with\
+            \ a question mark. Notice that backslash character (\"\\\") needs to be\
+            \ escaped if searching for that character. Notice that queries starting\
+            \ with a wildcard typically will not perform well."
+        ignoreCase:
+          type: boolean
+          description: Should the query be non-case sensitive
+          default: false
+      description: Node name query condition
+    NumericValueCondition:
+      required:
+      - attribute
+      - conditionType
+      - operator
+      - queryValue
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: The condition type. Must have the value "numericvalue" for
+            this type of condition.
+          enum:
+          - and
+          - or
+          - id
+          - name
+          - textvalue
+          - numericvalue
+          - objecttype
+          - simplebelow
+          - lovvalue
+          - hasreferenceto
+          - hasdatacontainerobject
+        attribute:
+          type: string
+          description: "ID of the attribute for which to match the value. Attribute\
+            \ validation base type must be either \"Integer\", \"Number\", \"Fraction\"\
+            \ or \"Numeric Text\"."
+        operator:
+          type: string
+          description: The condition operator
+          enum:
+          - eq
+          - neq
+          - gt
+          - gteq
+          - lt
+          - lteq
+        queryValue:
+          type: number
+          description: The query value
+        unit:
+          type: string
+          description: ID of the unit that "queryValue" is supplied in
+        matchInheritedValues:
+          type: boolean
+          description: Should the query match hierarchically inherited values
+          default: false
+      description: "Numeric value query condition. This type of value condition can\
+        \ only be used for attributes of the validation base types \"Integer\", \"\
+        Number\", and \"Fraction\". If no unit information is supplied, the condition\
+        \ will only match values without units. E.g. \"5\" is not equal to \"5 kg\"\
+        ."
+    ObjectTypeCondition:
+      required:
+      - conditionType
+      - objectType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: The condition type. Must have the value "objecttype" for this
+            type of condition.
+          enum:
+          - and
+          - or
+          - id
+          - name
+          - textvalue
+          - numericvalue
+          - objecttype
+          - simplebelow
+          - lovvalue
+          - hasreferenceto
+          - hasdatacontainerobject
+        objectType:
+          type: string
+          description: Object type ID
+      description: Object type query condition
+    OrCondition:
+      required:
+      - conditionType
+      - conditions
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: The condition type. Must have the value "or" for this type
+            of condition.
+          enum:
+          - and
+          - or
+          - id
+          - name
+          - textvalue
+          - numericvalue
+          - objecttype
+          - simplebelow
+          - lovvalue
+          - hasreferenceto
+          - hasdatacontainerobject
+        conditions:
+          maxItems: 5
+          minItems: 2
+          type: array
+          description: The conditions to be OR'ed
+          items:
+            $ref: '#/components/schemas/Condition'
+      description: Compound condition that lets you "OR" multiple other conditions
+    Reference:
+      type: object
+      description: An "abstract" representation of references for a specific reference
+        type. Will always either be a SingleReference or a MultiReference depending
+        on whether the reference type is multivalued.
+      oneOf:
+      - $ref: '#/components/schemas/SingleReference'
+      - $ref: '#/components/schemas/MultiReference'
+    ReferenceEntry:
+      type: object
+      properties:
+        contextLocal:
+          type: boolean
+          description: "Indicates whether the reference is set locally or inherited\
+            \ from a dimension point / a combination dimension points different from\
+            \ the ones used for current context. Should not be supplied for reference\
+            \ updates. If supplied with the value \"false\", the update will be skipped."
+          readOnly: true
+        target:
+          type: string
+          description: ID of the target object
+        targetType:
+          type: string
+          description: Target "supertype"
+          readOnly: true
+          enum:
+          - product
+          - classification
+          - asset
+          - entity
+        values:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Value'
+          description: Reference metadata values. Keys are attribute IDs and values
+            either a SingleValue or a MultiValue depending on whether the attribute
+            is multivalued.
+      description: An atomic reference. Can represent both a "cross reference" and
+        a "classification product link".
+    ReferenceMetadataCondition:
+      type: object
+      description: "An \"abstract\" representation of a condition that can be used\
+        \ to match reference metadata. Must always either be an AndCondition, an OrCondition,\
+        \ a TextValueCondition, a NumericValueCondition, or an LovValueCondition.\
+        \ Notice that conditions nested in compound conditions must also be valid\
+        \ reference metadata conditions."
+      oneOf:
+      - $ref: '#/components/schemas/AndCondition'
+      - $ref: '#/components/schemas/OrCondition'
+      - $ref: '#/components/schemas/TextValueCondition'
+      - $ref: '#/components/schemas/NumericValueCondition'
+      - $ref: '#/components/schemas/LovValueCondition'
+    SimpleBelowCondition:
+      required:
+      - conditionType
+      - topNodeId
+      - topNodeType
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: The condition type. Must have the value "simplebelow" for this
+            type of condition.
+          enum:
+          - and
+          - or
+          - id
+          - name
+          - textvalue
+          - numericvalue
+          - objecttype
+          - simplebelow
+          - lovvalue
+          - hasreferenceto
+          - hasdatacontainerobject
+        topNodeId:
+          type: string
+          description: ID of the node to match results below
+        topNodeType:
+          type: string
+          description: Type of node to match results below
+          enum:
+          - classification
+          - entity
+          - product
+      description: Simple below query condition
+    SingleDataContainer:
+      type: object
+      properties:
+        dataContainer:
+          $ref: '#/components/schemas/DataContainerEntry'
+      additionalProperties: false
+      description: A data container for a single-valued data container type
+    SingleReference:
+      type: object
+      properties:
+        reference:
+          $ref: '#/components/schemas/ReferenceEntry'
+      additionalProperties: false
+      description: A reference for a single-valued reference type. Covers both "cross
+        references" and "classification product links".
+    SingleValue:
+      type: object
+      properties:
+        calculated:
+          type: boolean
+          description: "Indicates whether the value is calculated. Should not be supplied\
+            \ for value updates. If supplied with the value \"true\", the update of\
+            \ the specific value will be skipped."
+          readOnly: true
+        contextLocal:
+          type: boolean
+          description: "Indicates whether the value is set locally or inherited from\
+            \ a dimension point / a combination dimension points different from the\
+            \ ones used for current context. Should not be supplied for value updates.\
+            \ If supplied with the value \"false\", the update of the specific value\
+            \ will be skipped."
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/ValueEntry'
+      additionalProperties: false
+      description: A value for a single-valued attribute
+    TextValueCondition:
+      required:
+      - attribute
+      - conditionType
+      - operator
+      - queryString
+      type: object
+      properties:
+        conditionType:
+          type: string
+          description: The condition type. Must have the value "textvalue" for this
+            type of condition.
+          enum:
+          - and
+          - or
+          - id
+          - name
+          - textvalue
+          - numericvalue
+          - objecttype
+          - simplebelow
+          - lovvalue
+          - hasreferenceto
+          - hasdatacontainerobject
+        attribute:
+          type: string
+          description: Id of the attribute for which to match the value
+        operator:
+          type: string
+          description: The condition operator
+          enum:
+          - like
+          - eq
+          - neq
+        queryString:
+          type: string
+          description: "The query string. When the \"like\" operator is used, the\
+            \ wildcards \"*\" (any number of characters) and \"?\" (single character)\
+            \ can be used in the query string. Wildcard characters can be escaped\
+            \ using \"\\\". I.e. like(\"\\\\?*\") will match values starting with\
+            \ a question mark. Notice that backslash character (\"\\\") needs to be\
+            \ escaped if searching for that character. Notice that queries starting\
+            \ with a wildcard typically will not perform well."
+        matchInheritedValues:
+          type: boolean
+          description: Should the query match hierarchically inherited values
+          default: false
+        ignoreCase:
+          type: boolean
+          description: Should the query be non-case sensitive
+          default: false
+      description: Text value query condition. This type of value condition can be
+        used for all types of attributes.
+    Value:
+      type: object
+      description: An "abstract" representation of a value. Will always either be
+        a SingleValue or a MultiValue depending on whether the attribute is multivalued.
+      oneOf:
+      - $ref: '#/components/schemas/SingleValue'
+      - $ref: '#/components/schemas/MultiValue'
+    ValueEntry:
+      type: object
+      properties:
+        value:
+          type: string
+          description: The "value" part of the value
+        valueId:
+          type: string
+          description: Value ID to be used with list of values based attributes for
+            which the list of values uses value IDs
+        unit:
+          type: string
+          description: Unit ID
+      description: "An atomic value. A value will consist of either a \"value\" alone,\
+        \ a \"valueId\" alone, a \"value\" and a \"unit\" or a \"value\", a \"valueId\"\
+        \ and a \"unit\". For writes, \"valueId\" takes precedence over \"value\"\
+        \ (and implicitly \"unit\") that will be ignored if \"valueId\" is supplied."
+  parameters:
+    context:
+      name: context
+      in: query
+      description: ID of the context in which to perform the operation
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: string
+    workspace:
+      name: workspace
+      in: query
+      description: ID of the workspace in which to perform the operation. Defaults
+        to "Main".
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+        default: Main
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    bearerAuth:
+      type: http
+      scheme: bearer
