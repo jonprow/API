@@ -9,12 +9,11 @@
     "url" : "https://api-test.tmhna.com:443/v1/tmh/mdm/step",
     "description" : "Test server"
   }, {
-    "url" : "https://api.tmhna.com/fleet/v1/tmh/mdm/step",
+    "url" : "https://api.tmhna.com:443/v1/tmh/mdm/step",
     "description" : "Production server"
   } ],
   "security" : [ {
-    "basicAuth" : [ ],
-    "bearerAuth" : [ ]
+    "oAuth2ClientCredentials" : [ ]
   } ],
   "paths" : {
     "/entities/find-similar" : {
@@ -907,13 +906,15 @@
       }
     },
     "securitySchemes" : {
-      "basicAuth" : {
-        "type" : "http",
-        "scheme" : "basic"
-      },
-      "bearerAuth" : {
-        "type" : "http",
-        "scheme" : "bearer"
+      "oAuth2ClientCredentials" : {
+        "type" : "oauth2",
+        "description" : "OAuth Authenication",
+        "flows" : {
+          "clientCredentials" : {
+            "tokenUrl" : "https://api-test.tmhna.com/v1/oauth2/token/",
+            "scopes" : { }
+          }
+        }
       }
     }
   }
